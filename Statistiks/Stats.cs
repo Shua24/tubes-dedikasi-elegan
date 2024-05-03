@@ -4,14 +4,14 @@ using ConsoleTables;
 
 namespace CSVAnalytics
 {
-    public class CSVTable
+    public class Stats
     {
         private string filepath; // folder yang isinya csv
-        public CSVTable(string filepath)
+        public Stats(string filepath)
         {
             this.filepath = filepath;
         }
-        public string GetFilePath()s
+        public string GetFilePath()
         {
             return filepath;
         }
@@ -124,8 +124,6 @@ namespace CSVAnalytics
             }
             Console.WriteLine();
         }
-
-
 
         public void showCSV(string filepath)
         {
