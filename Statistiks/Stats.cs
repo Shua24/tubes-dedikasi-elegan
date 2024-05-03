@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.Data.Analysis;
+using ConsoleTables;
 
 public class Stats
 {
@@ -77,3 +79,23 @@ public class Stats
             }
         }
     }
+
+    public void showCSV(string filepath)
+    {
+        var df = DataFrame.LoadCsv(filepath);
+
+        ConsoleTable table = new ConsoleTable(df.Columns.Select(c => c.Name).ToArray());
+        foreach (var row in df.Rows)
+        {
+            object[] rowdata = new object[df.Columns.Count];
+            for (int i = 0; i < df.Columns.Count; i++)
+            {
+                rowdata[i] = row[i] ?? 0.0f;
+            }
+
+            table.AddRow(rowdata);
+        }
+
+        table.Write(Format.Alternative);
+    }
+}
