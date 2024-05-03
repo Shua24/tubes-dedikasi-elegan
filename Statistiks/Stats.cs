@@ -78,6 +78,22 @@ public class Stats
                 }
             }
         }
+
+        var accessedCol = df["Organism"]; // inisialisasi
+        Console.Write("Masukkan spesies bakteri: ");
+
+        string accessed = Console.ReadLine()?.ToLower();
+
+        string ignoredCol = "Organism";
+        List<int> kept = new List<int>();
+
+        for (int i = 0; i < df.Rows.Count; i++)
+        {
+            if (!df.Rows[i][ignoredCol].ToString().Equals(ignored))
+            {
+                kept.Add(i);
+            }
+        }
     }
 
     public void showCSV(string filepath)
