@@ -60,4 +60,20 @@ public class Stats
 
         return filepath + csvChange;
     }
-}
+
+    public void CsvStats(string filepath)
+    {
+        var df = DataFrame.LoadCsv(filepath);
+        string ignored = "Number of isolates";
+
+        foreach (var col in df.Columns)
+        {
+            for (int i = 0; i < col.Length; i++)
+            {
+                if (col[i] == null || col[i] == DBNull.Value)
+                {
+                    col[i] = 0.0f;
+                }
+            }
+        }
+    }
