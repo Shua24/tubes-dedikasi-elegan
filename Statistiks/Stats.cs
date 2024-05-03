@@ -94,7 +94,36 @@ public class Stats
                 kept.Add(i);
             }
         }
+
+        for (int i = 0; i < df.Columns.Count; i++)
+        {
+            if (df.Columns[i].Name.ToLower() == accessed.ToLower())
+            {
+                accessedCol = df[df.Columns[i].Name]; // supaya case insensitive
+            }
+        }
+
+        df = df[kept];
+
+        var correlatingCol = df[ignoredCol];
+
+        var pairedvalues = new List<(object, object)>();
+        for (int i = 0; i < Math.Min(accessedCol.Length, correlatingCol.Length); i++)
+        {
+            pairedvalues.Add((accessedCol[i], correlatingCol[i]));
+        }
+
+        var sortedval = pairedvalues.OrderByDescending(pair => pair.Item1);
+
+        var threeLargest = sortedval.Take(3);
+        foreach (var pair in threeLargest)
+        {
+            Console.WriteLine(pair.Item2 + " - " + pair.Item1 + "%");
+        }
+        Console.WriteLine();
     }
+
+
 
     public void showCSV(string filepath)
     {
