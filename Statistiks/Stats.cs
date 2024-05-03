@@ -125,8 +125,6 @@ namespace CSVAnalytics
             Console.WriteLine();
         }
 
-
-
         public void showCSV(string filepath)
         {
             var df = DataFrame.LoadCsv(filepath);
