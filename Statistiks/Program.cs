@@ -4,7 +4,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        string fp = @"D:/Codes/";
+        string fp = @"D:/Codes/"; // TODO: Jangan pakai default ini
         
         Console.WriteLine("Anda perlu memberikan referensi pertama. Masukkan nama file dengan ekstensi.");
         Console.WriteLine("Contoh: file.csv");
