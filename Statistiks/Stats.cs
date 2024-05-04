@@ -65,7 +65,7 @@ namespace CSVAnalytics
             return filepath + csvChange;
         }
 
-        public void CsvStats(string filepath)
+        public IEnumerable<(object, object)> CsvStats(string filepath)
         {
             var df = DataFrame.LoadCsv(filepath);
             string ignored = "Number of isolates";
@@ -118,11 +118,13 @@ namespace CSVAnalytics
             var sortedval = pairedvalues.OrderByDescending(pair => pair.Item1);
 
             var threeLargest = sortedval.Take(3);
+
             foreach (var pair in threeLargest)
             {
-                Console.WriteLine(pair.Item2 + " - " + pair.Item1 + "%");
+                Console.WriteLine(pair.Item2 + " - " + pair.Item1 + "%"); // console
             }
             Console.WriteLine();
+            return threeLargest.ToList(); // API
         }
 
         public void showCSV(string filepath)

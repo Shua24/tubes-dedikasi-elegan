@@ -1,13 +1,14 @@
 ﻿using CSVAnalytics;
 using ConfigurationSettings;
 
+
 internal class Program
 {
     private static void Main(string[] args)
     {
         string fp = @"D:/Codes/"; // TODO: Jangan pakai default ini (Shua)
-        // TODO: Ganti intro ke setup direktori default (Tunggu Zawin dan Aufa)
-        
+                                  // TODO: Ganti intro ke setup direktori default (Tunggu Zawin dan Aufa)
+
         Console.WriteLine("Anda perlu memberikan referensi pertama. Masukkan nama file dengan ekstensi.");
         Console.WriteLine("Contoh: file.csv");
         Console.Write("File anda: ");
@@ -21,13 +22,13 @@ internal class Program
             return;
         }
 
-        
-        if(!CSVTable.ExtCheck(def))
+
+        if (!CSVTable.ExtCheck(def))
         {
             Console.WriteLine("File bukan CSV!");
             return;
         }
-        
+
 
         while (true)
         {
@@ -42,11 +43,11 @@ internal class Program
                 case 4: tab.DelData(fp); break;
                 case 5: def = tab.ChangeRef(fp); break;
                 case 6:
-                    
+
                     Console.WriteLine("Terima kasih sudah memilih aplikasi ini!\n");
                     Environment.Exit(0);
                     break;
-                    
+
                 default: Console.WriteLine("Pilihan tidak valid!\n"); break;
             }
         }
