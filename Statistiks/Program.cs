@@ -1,10 +1,12 @@
 ﻿using CSVAnalytics;
+using ConfigurationSettings;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        string fp = @"D:/Codes/"; // TODO: Jangan pakai default ini
+        string fp = @"D:/Codes/"; // TODO: Jangan pakai default ini (Shua)
+        // TODO: Ganti intro ke setup direktori default (Tunggu Zawin dan Aufa)
         
         Console.WriteLine("Anda perlu memberikan referensi pertama. Masukkan nama file dengan ekstensi.");
         Console.WriteLine("Contoh: file.csv");
@@ -13,7 +15,6 @@ internal class Program
 
         CSVTable tab = new CSVTable(fp);
 
-        
         if (!File.Exists(def))
         {
             Console.WriteLine("File tidak ditemukan!");

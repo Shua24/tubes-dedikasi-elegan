@@ -4,10 +4,10 @@ using ConsoleTables;
 
 namespace CSVAnalytics
 {
-    public class Stats
+    public class CSVTable
     {
         private string filepath; // folder yang isinya csv
-        public Stats(string filepath)
+        public CSVTable(string filepath)
         {
             this.filepath = filepath;
         }
