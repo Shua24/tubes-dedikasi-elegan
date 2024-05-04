@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text.Json;
 
 namespace ConfigurationSettings
@@ -31,7 +32,7 @@ namespace ConfigurationSettings
 
         private void SetDefaults()
         {
-            // TOOD (Aufa)
+            config = new Configuration(@"../../");
         }
 
         private void NewConfiguration()
@@ -47,7 +48,7 @@ namespace ConfigurationSettings
 
         public void ChangeConfig(string newPath)
         {
-            // TODO (Zawin)
+            config.directory = newPath; //TO DO DZAWIN: IF ELSE KALAU FOLDERNYA TIDAK ADA
         }
     }
 }
