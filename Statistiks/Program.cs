@@ -6,9 +6,9 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        string fp = @"D:/Codes/"; // TODO: Jangan pakai default ini (Shua)
-                                  // TODO: Ganti intro ke setup direktori default (Tunggu Zawin dan Aufa)
+        string fp = @"D:/Codes/"; // TODO: Refactor sesuai config
 
+        Console.WriteLine(Directory.GetCurrentDirectory());
         Console.WriteLine("Anda perlu memberikan referensi pertama. Masukkan nama file dengan ekstensi.");
         Console.WriteLine("Contoh: file.csv");
         Console.Write("File anda: ");
