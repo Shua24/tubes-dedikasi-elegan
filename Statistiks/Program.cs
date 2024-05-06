@@ -1,54 +1,43 @@
 ﻿using CSVAnalytics;
 using ConfigurationSettings;
+using UserData;
 
 
 internal class Program
 {
+    // TODO: Refactor sesuai login (Shua)
+    // TODO: Refactor sesuai runtime config (Shua)
     private static void Main(string[] args)
     {
-        string fp = @"D:/Codes/"; // TODO: Jangan pakai default ini (Shua)
-                                  // TODO: Ganti intro ke setup direktori default (Tunggu Zawin dan Aufa)
-
-        Console.WriteLine("Anda perlu memberikan referensi pertama. Masukkan nama file dengan ekstensi.");
-        Console.WriteLine("Contoh: file.csv");
-        Console.Write("File anda: ");
-        string def = fp + Console.ReadLine();
-
-        CSVTable tab = new CSVTable(fp);
-
-        if (!File.Exists(def))
+        LoginState err = LogInAction.login();
+        if (err != LoginState.SUDAH_LOGIN)
         {
-            Console.WriteLine("File tidak ditemukan!");
-            return;
+            Console.WriteLine("Username atau password salah!");
         }
-
-
-        if (!CSVTable.ExtCheck(def))
+        else
         {
-            Console.WriteLine("File bukan CSV!");
-            return;
-        }
-
-
-        while (true)
-        {
-            menu();
-            int choice = Convert.ToInt32(Console.ReadLine());
-
-            switch (choice)
+            while (true)
             {
-                case 1: tab.showCSV(def); break;
-                case 2: tab.CsvStats(def); break;
-                case 3: Console.WriteLine(def + "\n"); break;
-                case 4: tab.DelData(fp); break;
-                case 5: def = tab.ChangeRef(fp); break;
-                case 6:
+                menu();
+                int choice = Convert.ToInt32(Console.ReadLine());
 
-                    Console.WriteLine("Terima kasih sudah memilih aplikasi ini!\n");
-                    Environment.Exit(0);
-                    break;
+                CSVTable tab = new CSVTable();
 
-                default: Console.WriteLine("Pilihan tidak valid!\n"); break;
+                switch (choice)
+                {
+                    case 1: tab.showCSV(); break;
+                    case 2: tab.CsvStats(); break;
+                    case 3: Console.WriteLine(tab.GetFilePath() + "\n"); break;
+                    case 4: tab.DelData(); break;
+                    case 5: tab.ChangeRef(); break;
+                    case 6:
+
+                        Console.WriteLine("Terima kasih sudah memilih aplikasi ini!\n");
+                        Environment.Exit(0);
+                        break;
+
+                    default: Console.WriteLine("Pilihan tidak valid!\n"); break;
+                }
             }
         }
     }
