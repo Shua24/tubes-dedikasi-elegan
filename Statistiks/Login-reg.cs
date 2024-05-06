@@ -16,12 +16,12 @@
             this.Password = Password;
         }
 
-        public LoginState login()
+        public LoginState Login()
         {
             StateLogin loginState = new StateLogin();
             UserList user = new UserList();
 
-            Console.Write("Login:\n Username: ");
+            Console.Write("Login:\nUsername: ");
             string nameinput = Console.ReadLine();
             Console.Write("Password: ");
             string passwdInput = Console.ReadLine();
@@ -49,15 +49,15 @@
             yousef
         }
 
-        public string GetUsername(User user)
+        public static string GetUsername(User user)
         {
             String[] usernames =
-                {
-            "Rakha",
-            "Joshua",
-            "Aufa",
-            "Dzawin",
-            "Yousef",
+            {
+                "Rakha",
+                "Joshua",
+                "Aufa",
+                "Dzawin",
+                "Yousef",
             };
             int index = (int)user;
             if (index >= 0 && index < usernames.Length)
@@ -67,15 +67,15 @@
             return "Username Tidak Ditemukan";
         }
 
-        public string GetPassword(User user)
+        public static string GetPassword(User user)
         {
             String[] passwords =
-                {
-            "galih",
-            "daniel",
-            "taqiyya",
-            "nuha",
-            "gumilar",
+            {
+                "galih",
+                "daniel",
+                "taqiyya",
+                "nuha",
+                "gumilar",
             };
             int index = (int)user;
             if (index >= 0 && index < passwords.Length)
@@ -106,6 +106,7 @@
         Transition[] transitions =
         {
             new Transition(LoginState.BELUM_LOGIN, Trigger.LOGIN, LoginState.SUDAH_LOGIN),
+            // TODO: Tambah states untuk automata (Rakha)
         };
 
         public LoginState NextState(LoginState initLoginState, Trigger trigger)
