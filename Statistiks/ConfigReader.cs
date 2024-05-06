@@ -36,7 +36,7 @@ namespace ConfigurationSettings
             PlatformID kern = os.Platform;
             switch (kern)
             {
-                case PlatformID.Win32NT: config = new Configuration("Windows", @"D:\CSV"); break;
+                case PlatformID.Win32NT: config = new Configuration("Windows", @"D:\CSV\"); break;
                 case PlatformID.MacOSX: config = new Configuration("Mac OSX", @"/home/$USER/CSV/"); break;
             }
         }

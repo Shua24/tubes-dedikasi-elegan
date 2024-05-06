@@ -1,42 +1,41 @@
 ﻿using System;
 using Microsoft.Data.Analysis;
 using ConsoleTables;
+using ConfigurationSettings;
 
 namespace CSVAnalytics
 {
     public class CSVTable
     {
         private string filepath; // folder yang isinya csv
-        public CSVTable(string filepath)
+        private string csvFile; // file CSV referensi
+        private ConfigurationReader conf;
+        public CSVTable()
         {
-            this.filepath = filepath;
+            this.conf = new ConfigurationReader();
+            this.filepath = conf.config.directory;
         }
+        
         public string GetFilePath()
         {
-            return filepath;
+            return filepath + csvFile;
         }
 
-        public static bool ExtCheck(string filepath)
+        public static bool IsCSV(string CSVFile)
         {
-            string ext = Path.GetExtension(filepath);
+            string ext = Path.GetExtension(CSVFile);
             return ext == ".csv";
         }
 
-        public void DelData(string filepath)
+        public void DelData()
         {
-            Console.WriteLine("Anda akan menghapus data pola kuman. Silakan pilih file yang dihapus (dengan extension)");
-            Console.WriteLine("Contoh: file.csv");
+            Console.WriteLine("Anda akan menghapus data pola kuman. Yakin (y/n)?");
 
-            string csvFile = Console.ReadLine();
-
-            Console.WriteLine("Anda yakin ingin menghapus data (y/n)?");
             string yn = Console.ReadLine();
 
             switch (yn)
             {
                 case "y":
-                    if (!File.Exists(filepath + csvFile)) Console.WriteLine("File tidak ditemukan!");
-                    if (!ExtCheck(filepath + csvFile)) Console.WriteLine("File bukan CSV!");
                     Console.WriteLine("Menghapus file " + filepath + csvFile + "...");
                     File.Delete(filepath + csvFile);
                     break;
@@ -45,29 +44,29 @@ namespace CSVAnalytics
             }
         }
 
-        public string ChangeRef(string filepath)
+        public void ChangeRef()
         {
             Console.Write("Anda akan mengganti pola kuman ke file yang baru. Yakin (y/n)? ");
             string yn = Console.ReadLine();
-            string csvChange = string.Empty;
 
             switch (yn)
             {
                 case "y":
                     Console.WriteLine("Masukkan nama file baru dengan ekstensi.");
                     Console.WriteLine("Contoh: file.csv");
-                    csvChange = Console.ReadLine();
+                    Console.Write("Tabel anda: ");
+                    string csvChange = Console.ReadLine();
+                    if (!File.Exists(csvChange) || !IsCSV(csvChange)) Console.WriteLine("File tidak ada atau file bukan CSV!");
+                    else conf.config. = csvChange;
                     break;
                 case "n": Console.WriteLine("Tidak ganti referensi"); break;
-                default: Console.WriteLine("File tidak ditemukan!"); break;
+                default: Console.WriteLine("Pilihan tidak valid!"); break;
             }
-
-            return filepath + csvChange;
         }
 
-        public IEnumerable<(object, object)> CsvStats(string filepath)
+        public void CsvStats()
         {
-            var df = DataFrame.LoadCsv(filepath);
+            var df = DataFrame.LoadCsv(filepath + csvFile);
             string ignored = "Number of isolates";
 
             foreach (var col in df.Columns)
@@ -124,12 +123,11 @@ namespace CSVAnalytics
                 Console.WriteLine(pair.Item2 + " - " + pair.Item1 + "%"); // console
             }
             Console.WriteLine();
-            return threeLargest.ToList(); // API
         }
 
-        public void showCSV(string filepath)
+        public void showCSV()
         {
-            var df = DataFrame.LoadCsv(filepath);
+            var df = DataFrame.LoadCsv(filepath + csvFile);
 
             ConsoleTable table = new ConsoleTable(df.Columns.Select(c => c.Name).ToArray());
             foreach (var row in df.Rows)

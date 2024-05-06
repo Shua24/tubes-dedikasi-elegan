@@ -1,6 +1,4 @@
-﻿using UserData;
-
-namespace UserData
+﻿namespace UserData
 {
     public enum LoginState{ SUDAH_LOGIN, BELUM_LOGIN }
     public enum Trigger { LOGIN }
@@ -15,27 +13,9 @@ namespace UserData
             this.UserName = UserName;
             this.Password = Password;
         }
-
-        public void login()
-        {
-            StateLogin login = new StateLogin();
-
-            Console.Write("Login:\n Username: ");
-            string nameinput = Console.ReadLine();
-            Console.Write("Password: ");
-            string passwdInput = Console.ReadLine();
-
-            Login user = new Login();
-
-            for(int i = 0; i < user.users.Count; i++)
-            {
-                if((nameinput == user.users[i].UserName) && (passwdInput == user.users[i].Password)) login.Action(Trigger.LOGIN);
-                else return;
-            }
-        }
     }
 
-    public class Login
+    public class UserList
     {
         public List<UserLogin> users = new List<UserLogin>
         {
@@ -102,6 +82,30 @@ namespace UserData
             this.stateAwal = stateAwal;
             this.trigger = trigger;
             this.stateAkhir = stateAkhir;
+        }
+    }
+
+    public static class LogInAction
+    {
+        public static LoginState login()
+        {
+            StateLogin loginState = new StateLogin();
+            UserList user = new UserList();
+
+            Console.Write("Login:\n Username: ");
+            string nameinput = Console.ReadLine();
+            Console.Write("Password: ");
+            string passwdInput = Console.ReadLine();
+
+            for (int i = 0; i < user.users.Count; i++)
+            {
+                if ((nameinput == user.users[i].UserName) && (passwdInput == user.users[i].Password))
+                {
+                    loginState.Action(Trigger.LOGIN);
+                }
+            }
+
+            return loginState.Current;
         }
     }
 }
