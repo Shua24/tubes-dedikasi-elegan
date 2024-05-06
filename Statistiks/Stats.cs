@@ -10,10 +10,11 @@ namespace CSVAnalytics
         private string filepath; // folder yang isinya csv
         private string csvFile; // file CSV referensi
         private ConfigurationReader conf;
-        public CSVTable()
+        public CSVTable(string csvfile)
         {
             this.conf = new ConfigurationReader();
             this.filepath = conf.config.directory;
+            this.csvFile = csvfile;
         }
         
         public string GetFilePath()
@@ -21,7 +22,7 @@ namespace CSVAnalytics
             return filepath + csvFile;
         }
 
-        public static bool IsCSV(string CSVFile)
+        public bool IsCSV(string CSVFile)
         {
             string ext = Path.GetExtension(CSVFile);
             return ext == ".csv";
@@ -44,7 +45,7 @@ namespace CSVAnalytics
             }
         }
 
-        public void ChangeRef()
+        public void ChangeRef() // ganti referensi di folder yang sama
         {
             Console.Write("Anda akan mengganti pola kuman ke file yang baru. Yakin (y/n)? ");
             string yn = Console.ReadLine();
@@ -57,7 +58,7 @@ namespace CSVAnalytics
                     Console.Write("Tabel anda: ");
                     string csvChange = Console.ReadLine();
                     if (!File.Exists(csvChange) || !IsCSV(csvChange)) Console.WriteLine("File tidak ada atau file bukan CSV!");
-                    else conf.config. = csvChange;
+                    else csvFile = csvChange;
                     break;
                 case "n": Console.WriteLine("Tidak ganti referensi"); break;
                 default: Console.WriteLine("Pilihan tidak valid!"); break;

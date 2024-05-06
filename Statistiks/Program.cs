@@ -9,19 +9,26 @@ internal class Program
     // TODO: Refactor sesuai runtime config (Shua)
     private static void Main(string[] args)
     {
-        LoginState err = LogInAction.login();
+        UserLogin login = new UserLogin();
+        LoginState err = login.login();
+
         if (err != LoginState.SUDAH_LOGIN)
         {
-            Console.WriteLine("Username atau password salah!");
+            Console.WriteLine("Username atau password salah");
         }
         else
         {
+            Console.WriteLine("Anda memerlukan referensi CSV pertama. Masukkan file CSV dengan ekstensinya");
+            Console.Write("File anda: ");
+            string csv = Console.ReadLine();
+
+            CSVTable tab = new CSVTable(csv);
+
+            if (!File.Exists(csv) && !tab.IsCSV(csv)) Console.WriteLine("File bukan CSV atau file tidak ada di folder!");
             while (true)
             {
                 menu();
                 int choice = Convert.ToInt32(Console.ReadLine());
-
-                CSVTable tab = new CSVTable();
 
                 switch (choice)
                 {
@@ -31,11 +38,9 @@ internal class Program
                     case 4: tab.DelData(); break;
                     case 5: tab.ChangeRef(); break;
                     case 6:
-
                         Console.WriteLine("Terima kasih sudah memilih aplikasi ini!\n");
                         Environment.Exit(0);
                         break;
-
                     default: Console.WriteLine("Pilihan tidak valid!\n"); break;
                 }
             }
