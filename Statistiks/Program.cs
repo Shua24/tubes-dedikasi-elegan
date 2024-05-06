@@ -10,7 +10,7 @@ internal class Program
     private static void Main(string[] args)
     {
         UserLogin login = new UserLogin();
-        LoginState err = login.login();
+        LoginState err = login.Login();
 
         if (err != LoginState.SUDAH_LOGIN)
         {
