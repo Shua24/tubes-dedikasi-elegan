@@ -70,7 +70,6 @@
             new UserLogin(GetUsername(User.dzawin), GetPassword(User.dzawin)),
             new UserLogin(GetUsername(User.yousef), GetPassword(User.yousef))
         };
-
     }
 
     public class StateLogin
