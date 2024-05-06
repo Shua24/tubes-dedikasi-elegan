@@ -5,8 +5,6 @@ using UserData;
 
 internal class Program
 {
-    // TODO: Refactor sesuai login (Shua)
-    // TODO: Refactor sesuai runtime config (Shua)
     private static void Main(string[] args)
     {
         UserLogin login = new UserLogin();
