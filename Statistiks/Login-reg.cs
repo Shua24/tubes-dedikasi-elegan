@@ -28,14 +28,8 @@ namespace UserData
 
             for(int i = 0; i < user.users.Count; i++)
             {
-                if((nameinput == user.users[i].UserName) && (passwdInput == user.users[i].Password))
-                {
-                    login.Action(Trigger.LOGIN);
-                }
-                else
-                {
-                    return;
-                }
+                if((nameinput == user.users[i].UserName) && (passwdInput == user.users[i].Password)) login.Action(Trigger.LOGIN);
+                else return;
             }
         }
     }
