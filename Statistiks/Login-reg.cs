@@ -20,11 +20,12 @@ namespace UserData
         {
             StateLogin login = new StateLogin();
 
+            Console.Write("Login:\n Username: ");
             string nameinput = Console.ReadLine();
+            Console.Write("Password: ");
             string passwdInput = Console.ReadLine();
 
             Login user = new Login();
-            StateLogin stateLogin = new StateLogin();
 
             for(int i = 0; i < user.users.Count; i++)
             {
