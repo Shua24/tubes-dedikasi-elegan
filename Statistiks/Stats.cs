@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Data.Analysis;
 using ConsoleTables;
 using ConfigurationSettings;
@@ -10,6 +10,7 @@ namespace CSVAnalytics
         private string filepath; // folder yang isinya csv
         private string csvFile; // file CSV referensi
         private ConfigurationReader conf;
+
         public CSVTable(string csvFile)
         {
             this.conf = new ConfigurationReader();
@@ -57,8 +58,8 @@ namespace CSVAnalytics
                     Console.WriteLine("Contoh: file.csv");
                     Console.Write("Tabel anda: ");
                     string csvChange = Console.ReadLine();
-                    if (!File.Exists(filepath+
-                        csvChange))
+
+                    if (!File.Exists(filepath+csvChange))
                     {
                         Console.WriteLine("File tidak tersedia!");
                     }

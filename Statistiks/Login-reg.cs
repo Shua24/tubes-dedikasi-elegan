@@ -20,9 +20,10 @@
         {
             StateLogin loginState = new StateLogin();
             UserList user = new UserList();
-
+          
             Console.Write("Login:\nUsername: ");
             string nameinput = Console.ReadLine();
+          
             Console.Write("Password: ");
             string passwdInput = Console.ReadLine();
 
