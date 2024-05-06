@@ -17,15 +17,59 @@
 
     public class UserList
     {
+        public enum User
+        {
+            rakha,
+            joshua,
+            aufa,
+            dzawin,
+            yousef
+        }
+
+        public string GetUsername(User user)
+        {
+            String[] usernames =
+                {
+            "Rakha",
+            "Joshua",
+            "Aufa",
+            "Dzawin",
+            "Yousef",
+            };
+            int index = (int)user;
+            if (index >= 0 && index < usernames.Length)
+            {
+                return usernames[index];
+            }
+            return "Username Tidak Ditemukan";
+        }
+
+        public string GetPassword(User user)
+        {
+            String[] passwords =
+                {
+            "galih",
+            "daniel",
+            "taqiyya",
+            "nuha",
+            "gumilar",
+            };
+            int index = (int)user;
+            if (index >= 0 && index < passwords.Length)
+            {
+                return passwords[index];
+            }
+            return "Password Tidak Ditemukan";
+        }
+
         public List<UserLogin> users = new List<UserLogin>
         {
-            new UserLogin("Rakha", "galih"),
-            new UserLogin("Joshua", "daniel"),
-            new UserLogin("Aufa", "taqiyya"),
-            new UserLogin("Dzawin", "nuha"),
-            new UserLogin("Yousef", "gumilar")
+            new UserLogin(GetUsername(User.rakha), GetPassword(User.rakha)),
+            new UserLogin(GetUsername(User.joshua), GetPassword(User.joshua)),
+            new UserLogin(GetUsername(User.aufa), GetPassword(User.aufa)),
+            new UserLogin(GetUsername(User.dzawin), GetPassword(User.dzawin)),
+            new UserLogin(GetUsername(User.yousef), GetPassword(User.yousef))
         };
-
     }
 
     public class StateLogin
