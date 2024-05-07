@@ -156,5 +156,35 @@ namespace CSVAnalytics
 
             table.Write(Format.Alternative);
         }
+
+        public DataFrameColumn[] ShowColumn(string columnName)
+        {
+            DataFrame df = DataFrame.LoadCsv(filepath + csvFile);
+
+            for(int i = 0; i < df.Columns.Count; i++)
+            {
+                if (df.Columns[i].Name.Contains(columnName, StringComparison.OrdinalIgnoreCase))
+                {
+                    DataFrameColumn[] FoundColumns =
+                    {
+                        df.Columns[0],
+                        df.Columns[i]
+                    };
+                    return FoundColumns;
+                }
+            }
+            DataFrameColumn[] defaultColumns =
+            {
+                df.Columns[0],
+                df.Columns[1]
+            };
+            return defaultColumns;
+        }
+
+        public DataFrame SerializeDataFrame()
+        {
+            DataFrame df = DataFrame.LoadCsv(filepath + csvFile);
+            return df;
+        }
     }
 }
