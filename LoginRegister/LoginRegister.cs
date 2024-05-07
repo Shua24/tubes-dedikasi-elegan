@@ -1,14 +1,14 @@
-﻿namespace UserData
+﻿namespace LoginRegister
 {
-    public enum LoginState{ SUDAH_LOGIN, BELUM_LOGIN }
-    public enum Trigger { LOGIN }
+
+    public enum LoginState { SUDAH_LOGIN, BELUM_LOGIN }
+    public enum Trigger { LOGIN, LOGOUT }
 
     public class UserLogin
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-
-        public UserLogin() { }
+        private LoginState stateLogin;
+        private string UserName { get; set; }
+        private string Password { get; set; }
 
         public UserLogin(string UserName, string Password)
         {
@@ -16,14 +16,24 @@
             this.Password = Password;
         }
 
-        public LoginState Login()
+        public UserLogin()
+        {
+        }
+
+
+        public LoginState getLoginState()
+        {
+            return this.stateLogin;
+        }
+
+        public void Login()
         {
             StateLogin loginState = new StateLogin();
             UserList user = new UserList();
-          
+
             Console.Write("Login:\nUsername: ");
             string nameinput = Console.ReadLine();
-          
+
             Console.Write("Password: ");
             string passwdInput = Console.ReadLine();
 
@@ -35,7 +45,14 @@
                 }
             }
 
-            return loginState.Current;
+            this.stateLogin = loginState.Current;
+        }
+
+        public void Logout()
+        {
+            StateLogin loginState = new StateLogin();
+            loginState.Action(Trigger.LOGOUT);
+            this.stateLogin = loginState.Current;
         }
     }
 
@@ -107,6 +124,7 @@
         Transition[] transitions =
         {
             new Transition(LoginState.BELUM_LOGIN, Trigger.LOGIN, LoginState.SUDAH_LOGIN),
+             new Transition(LoginState.SUDAH_LOGIN, Trigger.LOGOUT, LoginState.BELUM_LOGIN),
             // TODO: Tambah states untuk automata (Rakha)
         };
 
@@ -136,6 +154,10 @@
             else if (Current == LoginState.SUDAH_LOGIN && trigger == Trigger.LOGIN)
             {
                 Console.WriteLine("Sudah Masuk");
+            }
+            else if (Current == LoginState.SUDAH_LOGIN && trigger == Trigger.LOGOUT)
+            {
+                Console.WriteLine("User Logout");
             }
         }
     }

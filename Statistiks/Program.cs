@@ -1,45 +1,59 @@
 ﻿using CSVAnalytics;
 using ConfigurationSettings;
-using UserData;
+using LoginRegister;
 
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        UserLogin login = new UserLogin();
-        LoginState err = login.Login();
+        UserLogin user = new UserLogin();
+        
 
-        if (err != LoginState.SUDAH_LOGIN)
-        {
-            Console.WriteLine("Username atau password salah");
-        }
-        else
-        {
-            Console.WriteLine("Anda memerlukan referensi CSV pertama. Masukkan file CSV dengan ekstensinya");
-            Console.Write("File anda: ");
-            string csv = Console.ReadLine();
-
-            CSVTable tab = new CSVTable(csv);
-
-            if (!File.Exists(csv) && !tab.IsCSV(csv)) Console.WriteLine("File bukan CSV atau file tidak ada di folder!");
-            while (true)
+        while (true) {
+            bool keluar = false;
+            if (keluar)
             {
-                menu();
-                int choice = Convert.ToInt32(Console.ReadLine());
+                break;
+            }
+            user.Login();
+            if (user.getLoginState() != LoginState.SUDAH_LOGIN)
+            {
+                Console.WriteLine("Username atau password salah");
+            }
+            else
+            {
+                Console.WriteLine("Anda memerlukan referensi CSV pertama. Masukkan file CSV dengan ekstensinya");
+                Console.Write("File anda: ");
+                string csv = Console.ReadLine();
 
-                switch (choice)
+                CSVTable tab = new CSVTable(csv);
+
+                if (!File.Exists(csv) && !tab.IsCSV(csv)) Console.WriteLine("File bukan CSV atau file tidak ada di folder!");
+                while (true)
                 {
-                    case 1: tab.showCSV(); break;
-                    case 2: tab.CsvStats(); break;
-                    case 3: Console.WriteLine(tab.GetFilePath() + "\n"); break;
-                    case 4: tab.DelData(); break;
-                    case 5: tab.ChangeRef(); break;
-                    case 6:
-                        Console.WriteLine("Terima kasih sudah memilih aplikasi ini!\n");
-                        Environment.Exit(0);
+                    if (user.getLoginState() != LoginState.SUDAH_LOGIN)
+                    {
                         break;
-                    default: Console.WriteLine("Pilihan tidak valid!\n"); break;
+                    }
+                    menu();
+                    int choice = Convert.ToInt32(Console.ReadLine());
+
+                    switch (choice)
+                    {
+                        case 1: tab.showCSV(); break;
+                        case 2: tab.CsvStats(); break;
+                        case 3: Console.WriteLine(tab.GetFilePath() + "\n"); break;
+                        case 4: tab.DelData(); break;
+                        case 5: tab.ChangeRef(); break;
+                        case 6: user.Logout(); break;
+                        case 7:
+                            Console.WriteLine("Terima kasih sudah memilih aplikasi ini!\n");
+                            Environment.Exit(0);
+                            keluar = true;
+                            break;
+                        default: Console.WriteLine("Pilihan tidak valid!\n"); break;
+                    }
                 }
             }
         }
@@ -54,7 +68,8 @@ internal class Program
         Console.WriteLine("3. Tampilkan sumber tabel (direktori)");
         Console.WriteLine("4. Hapus pola kuman");
         Console.WriteLine("5. Update pola kuman ke file yang baru");
-        Console.WriteLine("6. Keluar");
+        Console.WriteLine("6. Logout");
+        Console.WriteLine("7. Keluar");
         Console.Write("Pilihan anda: ");
     }
 }

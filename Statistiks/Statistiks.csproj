@@ -13,4 +13,8 @@
     <PackageReference Include="Microsoft.Data.Analysis" Version="0.21.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LoginRegister\LoginRegister.csproj" />
+  </ItemGroup>
+
 </Project>
