@@ -56,63 +56,6 @@
         }
     }
 
-    public class UserList
-    {
-        public enum User
-        {
-            rakha,
-            joshua,
-            aufa,
-            dzawin,
-            yousef
-        }
-
-        public static string GetUsername(User user)
-        {
-            String[] usernames =
-            {
-                "Rakha",
-                "Joshua",
-                "Aufa",
-                "Dzawin",
-                "Yousef",
-            };
-            int index = (int)user;
-            if (index >= 0 && index < usernames.Length)
-            {
-                return usernames[index];
-            }
-            return "Username Tidak Ditemukan";
-        }
-
-        public static string GetPassword(User user)
-        {
-            String[] passwords =
-            {
-                "galih",
-                "daniel",
-                "taqiyya",
-                "nuha",
-                "gumilar",
-            };
-            int index = (int)user;
-            if (index >= 0 && index < passwords.Length)
-            {
-                return passwords[index];
-            }
-            return "Password Tidak Ditemukan";
-        }
-
-        public List<UserLogin> users = new List<UserLogin>
-        {
-            new UserLogin(GetUsername(User.rakha), GetPassword(User.rakha)),
-            new UserLogin(GetUsername(User.joshua), GetPassword(User.joshua)),
-            new UserLogin(GetUsername(User.aufa), GetPassword(User.aufa)),
-            new UserLogin(GetUsername(User.dzawin), GetPassword(User.dzawin)),
-            new UserLogin(GetUsername(User.yousef), GetPassword(User.yousef))
-        };
-    }
-
     public class StateLogin
     {
         public LoginState Current;
@@ -124,8 +67,7 @@
         Transition[] transitions =
         {
             new Transition(LoginState.BELUM_LOGIN, Trigger.LOGIN, LoginState.SUDAH_LOGIN),
-             new Transition(LoginState.SUDAH_LOGIN, Trigger.LOGOUT, LoginState.BELUM_LOGIN),
-            // TODO: Tambah states untuk automata (Rakha)
+            new Transition(LoginState.SUDAH_LOGIN, Trigger.LOGOUT, LoginState.BELUM_LOGIN),
         };
 
         public LoginState NextState(LoginState initLoginState, Trigger trigger)
@@ -175,4 +117,62 @@
             this.stateAkhir = stateAkhir;
         }
     }
+
+    public class UserList
+    {
+        public enum User
+        {
+            rakha,
+            joshua,
+            aufa,
+            dzawin,
+            yousef
+        }
+
+        public static string GetUsername(User user)
+        {
+            String[] usernames =
+            {
+                    "Rakha",
+                    "Joshua",
+                    "Aufa",
+                    "Dzawin",
+                    "Yousef",
+                };
+            int index = (int)user;
+            if (index >= 0 && index < usernames.Length)
+            {
+                return usernames[index];
+            }
+            return "Username Tidak Ditemukan";
+        }
+
+        public static string GetPassword(User user)
+        {
+            String[] passwords =
+            {
+                "galih",
+                "daniel",
+                "taqiyya",
+                "nuha",
+                "gumilar",
+            };
+            int index = (int)user;
+            if (index >= 0 && index < passwords.Length)
+            {
+                return passwords[index];
+            }
+            return "Password Tidak Ditemukan";
+        }
+
+        public List<UserLogin> users = new List<UserLogin>
+            {
+                new UserLogin(GetUsername(User.rakha), GetPassword(User.rakha)),
+                new UserLogin(GetUsername(User.joshua), GetPassword(User.joshua)),
+                new UserLogin(GetUsername(User.aufa), GetPassword(User.aufa)),
+                new UserLogin(GetUsername(User.dzawin), GetPassword(User.dzawin)),
+                new UserLogin(GetUsername(User.yousef), GetPassword(User.yousef))
+            };
+    }
+
 }
