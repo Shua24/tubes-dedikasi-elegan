@@ -1,7 +1,4 @@
-﻿using System;
-using System.Reflection.Metadata;
-
-namespace ConfigurationSettings
+﻿namespace ConfigurationSettings
 {
     public class Configuration
     {
