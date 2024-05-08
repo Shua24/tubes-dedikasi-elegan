@@ -16,9 +16,7 @@
             this.Password = Password;
         }
 
-        public UserLogin()
-        {
-        }
+        public UserLogin() { }
 
 
         public LoginState getLoginState()
