@@ -54,7 +54,7 @@ namespace ConfigurationSettings
 
         public void ChangeConfig(string newPath)
         {
-            config.directory = newPath; //TO DO DZAWIN: IF ELSE KALAU FOLDERNYA TIDAK ADA
+            config.directory = newPath; 
         }
     }
 }
