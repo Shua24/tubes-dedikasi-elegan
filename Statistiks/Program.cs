@@ -1,4 +1,5 @@
-﻿using CSVAnalytics;
+﻿using System.Diagnostics;
+using CSVAnalytics;
 using LoginRegister;
 
 
@@ -25,6 +26,7 @@ internal class Program
                 Console.WriteLine("Anda memerlukan referensi CSV pertama. Masukkan file CSV dengan ekstensinya");
                 Console.Write("File anda: ");
                 string csv = Console.ReadLine();
+                Debug.Assert(!string.IsNullOrEmpty(csv), "File csv tidak boleh null");
 
                 CSVTable tab = new CSVTable(csv);
 
@@ -36,7 +38,11 @@ internal class Program
                         break;
                     }
                     menu();
-                    int choice = Convert.ToInt32(Console.ReadLine());
+
+                    string pilihan = Console.ReadLine();
+                    Debug.Assert(!string.IsNullOrEmpty(pilihan), "Choice tidak boleh null");
+                    int choice = Convert.ToInt32(pilihan);
+                    
 
                     switch (choice)
                     {
