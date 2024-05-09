@@ -4,7 +4,7 @@ using static LoginRegister.UserList;
 namespace UnitTestingLoginRegister
 {
     [TestClass]
-    public class UnitTest1
+    public class LoginRegisterAutomataTest
     {
         [TestMethod]
         public void AutomataTest()

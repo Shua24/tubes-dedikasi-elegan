@@ -1,4 +1,6 @@
-﻿namespace LoginRegister
+﻿using System.Diagnostics;
+
+namespace LoginRegister
 {
 
     public enum LoginState { SUDAH_LOGIN, BELUM_LOGIN }
@@ -38,6 +40,28 @@
             for (int i = 0; i < user.users.Count; i++)
             {
                 if ((nameinput == user.users[i].UserName) && (passwdInput == user.users[i].Password))
+                {
+                    loginState.Action(Trigger.LOGIN);
+                }
+            }
+
+            this.stateLogin = loginState.Current;
+        }
+
+        public void LoginDoc()
+        {
+            StateLogin loginState = new StateLogin();
+            UserList user = new UserList();
+
+            Console.Write("Login:\nUsername: ");
+            string nameinput = Console.ReadLine();
+
+            Console.Write("Password: ");
+            string passwdInput = Console.ReadLine();
+
+            for (int i = 0; i < user.docs.Count; i++)
+            {
+                if ((nameinput == user.docs[i].UserName) && (passwdInput == user.docs[i].Password))
                 {
                     loginState.Action(Trigger.LOGIN);
                 }
@@ -131,12 +155,12 @@
         {
             String[] usernames =
             {
-                    "Rakha",
-                    "Joshua",
-                    "Aufa",
-                    "Dzawin",
-                    "Yousef",
-                };
+                 "Rakha",
+                 "Joshua",
+                 "Aufa",
+                 "Dzawin",
+                 "Yousef",
+            };
             int index = (int)user;
             if (index >= 0 && index < usernames.Length)
             {
@@ -163,14 +187,61 @@
             return "Password Tidak Ditemukan";
         }
 
-        public List<UserLogin> users = new List<UserLogin>
+        public enum Doctors
+        {
+            john,
+            steve,
+            alan
+        }
+
+        public static string GetDocUsername(Doctors doctors)
+        {
+            string[] docUsernames =
             {
-                new UserLogin(GetUsername(User.rakha), GetPassword(User.rakha)),
-                new UserLogin(GetUsername(User.joshua), GetPassword(User.joshua)),
-                new UserLogin(GetUsername(User.aufa), GetPassword(User.aufa)),
-                new UserLogin(GetUsername(User.dzawin), GetPassword(User.dzawin)),
-                new UserLogin(GetUsername(User.yousef), GetPassword(User.yousef))
+                "John",
+                "Steve",
+                "Alan"
             };
+            int index = (int)doctors;
+            if(index >= 0 && (index < docUsernames.Length))
+            {
+                return docUsernames[index];
+            }
+            return "Username dokter tidak ditemukan";
+        }
+
+        public static string GetDocPasswords(Doctors doctors)
+        {
+            string[] docPasswords =
+            {
+                "doe",
+                "allen",
+                "bob"
+            };
+            int index = (int)doctors;
+            if(index >= 0 && (index < docPasswords.Length))
+            {
+                return docPasswords[index];
+            }
+
+            return "Password dokter tidak ditemukan";
+        }
+
+        public List<UserLogin> users = new List<UserLogin>
+        {
+            new UserLogin(GetUsername(User.rakha), GetPassword(User.rakha)),
+            new UserLogin(GetUsername(User.joshua), GetPassword(User.joshua)),
+            new UserLogin(GetUsername(User.aufa), GetPassword(User.aufa)),
+            new UserLogin(GetUsername(User.dzawin), GetPassword(User.dzawin)),
+            new UserLogin(GetUsername(User.yousef), GetPassword(User.yousef))
+        };
+
+        public List<UserLogin> docs = new List<UserLogin>
+        {
+            new UserLogin(GetDocUsername(Doctors.alan), GetDocPasswords(Doctors.alan)),
+            new UserLogin(GetDocUsername(Doctors.steve), GetDocPasswords(Doctors.steve)),
+            new UserLogin(GetDocUsername(Doctors.john), GetDocPasswords(Doctors.john)),
+        };
     }
 
 }
