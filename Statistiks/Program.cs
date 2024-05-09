@@ -19,7 +19,9 @@ internal class Program
             }
             
             LoginMenu();
-            int userRole = Convert.ToInt32(Console.ReadLine());
+            string role = Console.ReadLine();
+            Debug.Assert(string.IsNullOrEmpty(role), "Role tidak boleh kosong");
+            int userRole = Convert.ToInt32(role);
             switch(userRole)
             {
                 case 1: user.Login(); break;
@@ -51,7 +53,9 @@ internal class Program
                         if (userRole == 1)
                         {
                             menu();
-                            int choice = Convert.ToInt32(Console.ReadLine());
+                            string pilihan = Console.ReadLine();
+                            Debug.Assert(!string.IsNullOrEmpty(pilihan));
+                            int choice = Convert.ToInt32(pilihan);
 
                             switch (choice)
                             {
