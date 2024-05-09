@@ -1,3 +1,4 @@
+﻿using System.Diagnostics;
 using CSVAnalytics;
 using LoginRegister;
 
@@ -8,6 +9,7 @@ internal class Program
     {
         UserLogin user = new UserLogin();
         
+
         while (true)
         {
             bool keluar = false;
@@ -33,6 +35,7 @@ internal class Program
                 Console.WriteLine("Anda memerlukan referensi CSV pertama. Masukkan file CSV dengan ekstensinya");
                 Console.Write("File anda: ");
                 string csv = Console.ReadLine();
+                Debug.Assert(!string.IsNullOrEmpty(csv), "File csv tidak boleh null");
 
                 CSVTable tab = new CSVTable(csv);
 
