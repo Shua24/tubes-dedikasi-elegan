@@ -1,4 +1,4 @@
-﻿using CSVAnalytics;
+using CSVAnalytics;
 using LoginRegister;
 
 
@@ -8,7 +8,6 @@ internal class Program
     {
         UserLogin user = new UserLogin();
         
-
         while (true)
         {
             bool keluar = false;

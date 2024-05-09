@@ -2,6 +2,7 @@ using System;
 using Microsoft.Data.Analysis;
 using ConsoleTables;
 using ConfigurationSettings;
+using System.Diagnostics;
 
 namespace CSVAnalytics
 {
@@ -34,6 +35,7 @@ namespace CSVAnalytics
             Console.WriteLine("Anda akan menghapus data pola kuman. Yakin (y/n)?");
 
             string yn = Console.ReadLine();
+            Debug.Assert(!string.IsNullOrEmpty(yn), "Pilihan tidak boleh null");
 
             switch (yn)
             {
@@ -46,10 +48,12 @@ namespace CSVAnalytics
             }
         }
 
+
         public void ChangeRef() // ganti referensi di folder yang sama
         {
             Console.Write("Anda akan mengganti pola kuman ke file yang baru. Yakin (y/n)? ");
             string yn = Console.ReadLine();
+            Debug.Assert(!string.IsNullOrEmpty(yn), "Pilihan tidak boleh null");
 
             switch (yn)
             {
@@ -97,6 +101,7 @@ namespace CSVAnalytics
             Console.Write("Masukkan spesies bakteri: ");
 
             string accessed = Console.ReadLine()?.ToLower();
+            Debug.Assert(!string.IsNullOrEmpty(accessed), "Species Bakteri tidak boleh null");
 
             string ignoredCol = "Organism";
             List<int> kept = new List<int>();
