@@ -1,5 +1,6 @@
 ﻿using CSVAnalytics;
 using LoginRegister;
+using System.Diagnostics;
 
 
 internal class Program
@@ -7,7 +8,6 @@ internal class Program
     private static void Main(string[] args)
     {
         UserLogin user = new UserLogin();
-        
 
         while (true)
         {
@@ -16,15 +16,15 @@ internal class Program
             {
                 break;
             }
-            
+
             LoginMenu();
             int userRole = Convert.ToInt32(Console.ReadLine());
-            switch(userRole)
+            switch (userRole)
             {
                 case 1: user.Login(); break;
                 case 2: user.LoginDoc(); break;
             }
-            
+
             if (user.getLoginState() != LoginState.SUDAH_LOGIN)
             {
                 Console.WriteLine("Username atau password salah");
@@ -34,6 +34,7 @@ internal class Program
                 Console.WriteLine("Anda memerlukan referensi CSV pertama. Masukkan file CSV dengan ekstensinya");
                 Console.Write("File anda: ");
                 string csv = Console.ReadLine();
+                Debug.Assert(!string.IsNullOrEmpty(csv), "File csv tidak boleh null");
 
                 CSVTable tab = new CSVTable(csv);
 
@@ -49,7 +50,9 @@ internal class Program
                         if (userRole == 1)
                         {
                             menu();
-                            int choice = Convert.ToInt32(Console.ReadLine());
+                            string pilihan = Console.ReadLine();
+                            Debug.Assert(!string.IsNullOrEmpty(pilihan), "Choice tidak boleh null");
+                            int choice = Convert.ToInt32(pilihan);
 
                             switch (choice)
                             {

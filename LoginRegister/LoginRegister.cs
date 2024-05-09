@@ -33,9 +33,11 @@ namespace LoginRegister
 
             Console.Write("Login:\nUsername: ");
             string nameinput = Console.ReadLine();
+            Debug.Assert(!string.IsNullOrEmpty(nameinput), "Username tidak boleh null");
 
             Console.Write("Password: ");
             string passwdInput = Console.ReadLine();
+            Debug.Assert(!string.IsNullOrEmpty(passwdInput), "Password tidak boleh null");
 
             for (int i = 0; i < user.users.Count; i++)
             {
