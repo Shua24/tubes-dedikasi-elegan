@@ -9,7 +9,6 @@ internal class Program
     {
         UserLogin user = new UserLogin();
         
-
         while (true)
         {
             bool keluar = false;
@@ -17,17 +16,19 @@ internal class Program
             {
                 break;
             }
-            
+
+            Console.Clear();
             LoginMenu();
             string role = Console.ReadLine();
-            Debug.Assert(string.IsNullOrEmpty(role), "Role tidak boleh kosong");
+            Debug.Assert(!string.IsNullOrEmpty(role), "role tidak boleh kosong");
             int userRole = Convert.ToInt32(role);
             switch(userRole)
             {
                 case 1: user.Login(); break;
                 case 2: user.LoginDoc(); break;
             }
-            
+
+            Console.Clear();            
             if (user.getLoginState() != LoginState.SUDAH_LOGIN)
             {
                 Console.WriteLine("Username atau password salah");
@@ -76,7 +77,9 @@ internal class Program
                         else if (userRole == 2)
                         {
                             DoctorsMenu();
-                            int docChoice = Convert.ToInt32(Console.ReadLine());
+                            string choiceStr = Console.ReadLine();
+                            Debug.Assert(!string.IsNullOrEmpty(choiceStr), "Pengisian menu tidak boleh kosong");
+                            int docChoice = Convert.ToInt32(choiceStr);
                             switch (docChoice)
                             {
                                 case 1: tab.showCSV(); break;
