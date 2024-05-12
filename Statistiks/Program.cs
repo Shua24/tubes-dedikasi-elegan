@@ -91,6 +91,7 @@ internal class Program
                                     Environment.Exit(0);
                                     keluar = true;
                                     break;
+                                default: Console.WriteLine("Pilihan tidak valid!"); break;
                             }
                         }
                     }
