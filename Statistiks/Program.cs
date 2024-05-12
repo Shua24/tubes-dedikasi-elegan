@@ -76,7 +76,7 @@ internal class Program
                         }
                         else if (userRole == 2)
                         {
-                            DoctorsMenu();
+                            MenuDoktah();
                             string choiceStr = Console.ReadLine();
                             Debug.Assert(!string.IsNullOrEmpty(choiceStr), "Pengisian menu tidak boleh kosong");
                             int docChoice = Convert.ToInt32(choiceStr);
@@ -120,7 +120,7 @@ internal class Program
         Console.Write("Pilihan Anda: ");
     }
 
-    private static void DoctorsMenu()
+    private static void MenuDoktah()
     {
         Console.WriteLine("Menu penghitungan tabel data responsivitas kuman terhadap antibiotik.");
         Console.WriteLine("Responsivitas dihitung dalam persentase, dimana 0% berarti bakteri kebal terhadap antibiotik. Pilih opsi:");

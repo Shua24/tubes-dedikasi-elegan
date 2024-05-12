@@ -12,6 +12,11 @@ namespace CSVAnalytics
         private string csvFile; // file CSV referensi
         private ConfigurationReader conf;
 
+        public CSVTable(string filepath, string csvFile = "")
+        {
+            this.filepath = filepath;
+        }
+        
         public CSVTable(string csvFile)
         {
             this.conf = new ConfigurationReader();
