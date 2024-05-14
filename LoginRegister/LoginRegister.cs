@@ -72,6 +72,41 @@ namespace LoginRegister
             this.stateLogin = loginState.Current;
         }
 
+        // untuk GUI
+        public LoginState Login(string username, string password)
+        {
+            StateLogin state = new StateLogin();
+            UserList users = new UserList();
+
+            for(int on = 0; on < users.users.Count; on++)
+            {
+                if (username == users.users[on].UserName && password == users.users[on].Password)
+                {
+                    state.Action(Trigger.LOGIN);
+                }
+            }
+            stateLogin = state.Current;
+            return stateLogin;
+        }
+
+        public LoginState DocLogin(string username, string password)
+        {
+            StateLogin docState = new StateLogin();
+            UserList doctors = new UserList();
+
+            for(int at = 0; at < doctors.docs.Count; at++)
+            {
+                if (username == doctors.docs[at].UserName && password == doctors.docs[at].Password)
+                {
+                    docState.Action(Trigger.LOGIN);
+                }
+            }
+
+            stateLogin = docState.Current;
+
+            return stateLogin;
+        }
+
         public void Logout()
         {
             StateLogin loginState = new StateLogin();

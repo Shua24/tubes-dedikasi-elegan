@@ -12,9 +12,10 @@ namespace CSVAnalytics
         private string csvFile; // file CSV referensi
         private ConfigurationReader conf;
 
-        public CSVTable(string filepath, string csvFile = "")
+        public CSVTable(string filepath, string csvFile)
         {
             this.filepath = filepath;
+            this.csvFile = csvFile;
         }
         
         public CSVTable(string csvFile)
@@ -146,6 +147,62 @@ namespace CSVAnalytics
                 Console.WriteLine(pair.Item2 + " - " + pair.Item1 + "%"); // console
             }
             Console.WriteLine();
+        }
+
+        public List<(object, object)> CsvStats(string column)
+        {
+            var df = DataFrame.LoadCsv(filepath); // GUI ga perlu ketik file
+            string ignored = "Number of isolates";
+
+            foreach (var col in df.Columns)
+            {
+                for (int i = 0; i < col.Length; i++)
+                {
+                    if (col[i] == null || col[i] == DBNull.Value)
+                    {
+                        col[i] = 0.0f;
+                    }
+                }
+            }
+
+            var accessedCol = df["Organism"]; // Inisialisasi
+
+            Debug.Assert(!string.IsNullOrEmpty(column), "Species Bakteri tidak boleh null");
+
+            string ignoredCol = "Organism";
+            List<int> kept = new List<int>();
+
+            for (int i = 0; i < df.Rows.Count; i++)
+            {
+                if (!df.Rows[i][ignoredCol].ToString().Equals(ignored))
+                {
+                    kept.Add(i);
+                }
+            }
+
+            for (int i = 0; i < df.Columns.Count; i++)
+            {
+                if (df.Columns[i].Name.ToLower() == column.ToLower())
+                {
+                    accessedCol = df[df.Columns[i].Name]; // supaya case insensitive
+                }
+            }
+
+            df = df[kept];
+
+            var correlatingCol = df[ignoredCol];
+
+            var pairedvalues = new List<(object, object)>();
+            for (int i = 0; i < Math.Min(accessedCol.Length, correlatingCol.Length); i++)
+            {
+                pairedvalues.Add((accessedCol[i], correlatingCol[i]));
+            }
+
+            var sortedval = pairedvalues.OrderByDescending(pair => pair.Item1);
+
+            var threeLargest = sortedval.Take(3);
+
+            return threeLargest.ToList();
         }
 
         public void showCSV()
