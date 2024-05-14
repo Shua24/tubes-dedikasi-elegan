@@ -168,7 +168,6 @@
             label7.Size = new Size(307, 15);
             label7.TabIndex = 14;
             label7.Text = "Semakin tinggi angka, semakin responsif bakteri tersebut";
-            label7.Click += label7_Click;
             // 
             // label8
             // 

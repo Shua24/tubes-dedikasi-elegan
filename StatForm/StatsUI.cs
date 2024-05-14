@@ -16,7 +16,7 @@ namespace StatForm
 {
     public partial class StatsUI : Form
     {
-        private string directory;
+        public string directory; // supaya dokter gabisa update, Directory di-pass ke form dokter
 
         public StatsUI()
         {
@@ -122,19 +122,6 @@ namespace StatForm
             }
         }
 
-        private void StatsUI_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
+        // TODO: Buat UI untuk dokter (hampir sama seperti UI tim mikrobiologi)
     }
 }
