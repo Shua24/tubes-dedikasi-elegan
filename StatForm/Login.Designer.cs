@@ -1,6 +1,6 @@
 ﻿namespace StatForm
 {
-    partial class Form1
+    partial class Login
     {
         /// <summary>
         ///  Required designer variable.
@@ -34,16 +34,20 @@
             label1 = new Label();
             label2 = new Label();
             button2 = new Button();
+            comboBox1 = new ComboBox();
+            label3 = new Label();
+            label4 = new Label();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(57, 228);
+            button1.Location = new Point(57, 289);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 0;
             button1.Text = "Login";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // textBox1
             // 
@@ -80,7 +84,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(225, 231);
+            button2.Location = new Point(221, 289);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 5;
@@ -88,20 +92,50 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
-            // Form1
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "Tim mikrobiologi", "Dokter" });
+            comboBox1.Location = new Point(146, 206);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(121, 23);
+            comboBox1.TabIndex = 6;
+            comboBox1.Text = "Pilih";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(57, 206);
+            label3.Name = "label3";
+            label3.Size = new Size(80, 15);
+            label3.TabIndex = 7;
+            label3.Text = "Login sebagai";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.ForeColor = Color.Red;
+            label4.Location = new Point(57, 250);
+            label4.Name = "label4";
+            label4.Size = new Size(0, 15);
+            label4.TabIndex = 8;
+            // 
+            // Login
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(435, 292);
+            ClientSize = new Size(502, 374);
+            Controls.Add(label4);
+            Controls.Add(label3);
+            Controls.Add(comboBox1);
             Controls.Add(button2);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
             Controls.Add(button1);
-            Name = "Form1";
+            Name = "Login";
             Text = "Login";
-            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -114,5 +148,8 @@
         private Label label1;
         private Label label2;
         private Button button2;
+        private ComboBox comboBox1;
+        private Label label3;
+        private Label label4;
     }
 }
