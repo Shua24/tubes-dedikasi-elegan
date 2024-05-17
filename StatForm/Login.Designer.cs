@@ -101,6 +101,7 @@
             comboBox1.Size = new Size(121, 23);
             comboBox1.TabIndex = 6;
             comboBox1.Text = "Pilih";
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // label3
             // 

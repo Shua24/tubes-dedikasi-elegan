@@ -1,31 +1,24 @@
-﻿using CSVAnalytics;
-using Microsoft.Data.Analysis;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Apache.Arrow;
+using Microsoft.Data.Analysis;
 
 namespace StatForm
 {
-    public partial class StatsUI : Form
+    public partial class StatsUI2 : Form
     {
-        public string directory; // supaya dokter gabisa update, Directory di-pass ke form dokter
-
-        public StatsUI()
+        public StatsUI2()
         {
             InitializeComponent();
-        }
-
-        public void button4_Click(object sender, EventArgs e)
-        {
-            Environment.Exit(0);
         }
 
         private DataTable ToDataTable(DataFrame dataFrame)
@@ -94,21 +87,17 @@ namespace StatForm
                     FillNA(df);
 
                     DataTable dt = ToDataTable(df);
-                    Table.DataSource = dt;
+                    //Apache.Arrow.Table.DataSource = dt;
 
                     string filepath = ofd.FileName;
-                    directory = filepath;
-
-                    label4.Text += " " + directory;
+                    //directory = filepath;
                 }
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)
         {
 
         }
-
-        // TODO: Buat UI untuk dokter (hampir sama seperti UI tim mikrobiologi)
     }
 }
