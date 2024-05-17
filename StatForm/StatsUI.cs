@@ -107,19 +107,6 @@ namespace StatForm
         private void button2_Click(object sender, EventArgs e)
         {
 
-            string input = textBox1.Text;
-            Debug.Assert(input != null || input != string.Empty);
-
-            CSVTable tab = new CSVTable(directory, string.Empty);
-            List<(object, object)> list = tab.CsvStats(input);
-
-            if (listBox1.Items.Count != 0) listBox1.Items.Clear();
-
-            foreach (var item in list)
-            {
-                string displayItem = $"{item.Item1}% - {item.Item2}";
-                listBox1.Items.Add(displayItem);
-            }
         }
 
         // TODO: Buat UI untuk dokter (hampir sama seperti UI tim mikrobiologi)

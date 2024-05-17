@@ -87,10 +87,10 @@ namespace StatForm
                     FillNA(df);
 
                     DataTable dt = ToDataTable(df);
-                    Apache.Arrow.Table.DataSource = dt;
+                    //Apache.Arrow.Table.DataSource = dt;
 
                     string filepath = ofd.FileName;
-                    directory = filepath;
+                    //directory = filepath;
                 }
             }
         }

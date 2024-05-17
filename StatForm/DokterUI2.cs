@@ -26,15 +26,15 @@ namespace StatForm
             string input = textBox1.Text;
             Debug.Assert(input != null || input != string.Empty);
 
-            CSVTable tab = new CSVTable(directory, string.Empty);
-            List<(object, object)> list = tab.CsvStats(input);
+            //CSVTable tab = new CSVTable(directory, string.Empty);
+            //List<(object, object)> list = tab.CsvStats(input);
 
             if (listBox1.Items.Count != 0) listBox1.Items.Clear();
 
-            foreach (var item in list)
+            //foreach (var item in list)
             {
-                string displayItem = $"{item.Item1}% - {item.Item2}";
-                listBox1.Items.Add(displayItem);
+            //    string displayItem = $"{item.Item1}% - {item.Item2}";
+            //    listBox1.Items.Add(displayItem);
             }
         }
     }
