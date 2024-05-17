@@ -47,6 +47,7 @@ namespace StatForm
                         if (string.IsNullOrEmpty(dirReference)) label4.Text = "Tim mikrobiologi belum memberikan pola kuman!";
                         else
                         {
+                            Hide();
                             nextdoc = new DokterUI(dirReference);
                             nextdoc.Show();
                         }

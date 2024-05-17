@@ -87,6 +87,8 @@ namespace StatForm
                     Table.DataSource = dt;
 
                     string reference = ofd.FileName;
+
+                    Close();
                     StatsUI2 statsUI = new StatsUI2(reference);
                     statsUI.Show();
                 }
