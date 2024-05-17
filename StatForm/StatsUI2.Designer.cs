@@ -34,6 +34,7 @@
             button2 = new Button();
             button3 = new Button();
             button4 = new Button();
+            button5 = new Button();
             ((System.ComponentModel.ISupportInitialize)Table).BeginInit();
             SuspendLayout();
             // 
@@ -42,14 +43,14 @@
             Table.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             Table.Location = new Point(12, 12);
             Table.Name = "Table";
-            Table.Size = new Size(1181, 394);
+            Table.Size = new Size(1181, 464);
             Table.TabIndex = 0;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(476, 430);
+            label1.Location = new Point(476, 479);
             label1.Name = "label1";
             label1.Size = new Size(296, 21);
             label1.TabIndex = 1;
@@ -57,7 +58,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(450, 467);
+            button1.Location = new Point(369, 514);
             button1.Name = "button1";
             button1.Size = new Size(141, 23);
             button1.TabIndex = 2;
@@ -67,12 +68,13 @@
             // 
             // button2
             // 
-            button2.Location = new Point(657, 467);
+            button2.Location = new Point(541, 514);
             button2.Name = "button2";
             button2.Size = new Size(141, 23);
             button2.TabIndex = 3;
             button2.Text = "Hapus";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button3
             // 
@@ -92,12 +94,24 @@
             button4.TabIndex = 5;
             button4.Text = "Keluar";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
+            // button5
+            // 
+            button5.Location = new Point(736, 514);
+            button5.Name = "button5";
+            button5.Size = new Size(158, 23);
+            button5.TabIndex = 6;
+            button5.Text = "Cari antibiotik terbaik...";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
             // StatsUI2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1203, 647);
+            Controls.Add(button5);
             Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(button2);
@@ -105,7 +119,8 @@
             Controls.Add(label1);
             Controls.Add(Table);
             Name = "StatsUI2";
-            Text = "StatsUI2";
+            Text = "Statistika Pola Kuman";
+            Load += StatsUI2_Load;
             ((System.ComponentModel.ISupportInitialize)Table).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -119,5 +134,6 @@
         private Button button2;
         private Button button3;
         private Button button4;
+        private Button button5;
     }
 }

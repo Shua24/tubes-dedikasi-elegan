@@ -4,21 +4,18 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Apache.Arrow;
 using Microsoft.Data.Analysis;
 
 namespace StatForm
 {
     public partial class StatsUI2 : Form
     {
-        public StatsUI2()
+        public string dirReference;
+
+        public StatsUI2(string dirReference)
         {
             InitializeComponent();
+            this.dirReference = dirReference;
         }
 
         private DataTable ToDataTable(DataFrame dataFrame)
@@ -76,6 +73,20 @@ namespace StatForm
             }
         }
 
+        private DataFrame DataFrameNA()
+        {
+            DataFrame df = DataFrame.LoadCsv(dirReference);
+            FillNA(df);
+            return df;
+        }
+
+        private void DataGridReference()
+        {
+            DataFrame df = DataFrameNA();
+            DataTable dt = ToDataTable(df);
+            Table.DataSource = dt;
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
@@ -83,21 +94,44 @@ namespace StatForm
                 ofd.Filter = "CSV files (*.csv) | *.csv";
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    DataFrame df = DataFrame.LoadCsv(ofd.FileName);
+                    dirReference = ofd.FileName;
+
+                    DataFrame df = DataFrame.LoadCsv(dirReference);
                     FillNA(df);
 
                     DataTable dt = ToDataTable(df);
-                    //Apache.Arrow.Table.DataSource = dt;
-
-                    string filepath = ofd.FileName;
-                    //directory = filepath;
+                    Table.DataSource = dt;
                 }
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            Hide();
+            Login login = new Login(dirReference);
+            login.Show();
+        }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            File.Delete(dirReference);
+            Table.DataSource = null;
+        }
+
+        private void StatsUI2_Load(object sender, EventArgs e)
+        {
+            DataGridReference();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            DokterUI2 next = new DokterUI2(dirReference);
+            next.Show();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

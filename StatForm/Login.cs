@@ -4,14 +4,11 @@ namespace StatForm
 {
     public partial class Login : Form
     {
-        public Login()
+        public string? dirReference;
+        public Login(string? dirReference)
         {
             InitializeComponent();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
+            this.dirReference = dirReference;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -21,15 +18,17 @@ namespace StatForm
 
             object selectedRole = comboBox1.SelectedItem;
 
+            DokterUI nextdoc;
+
             if (selectedRole == null)
             {
                 label4.Text = "Error: Anda perlu memilih role pengguna!";
             }
-            else if (textBox1.Text == null)
+            else if (string.IsNullOrEmpty(textBox1.Text))
             {
                 label4.Text = "Error: Username tidak terisi";
             }
-            else if (textBox2.Text == null)
+            else if (string.IsNullOrEmpty(textBox2.Text))
             {
                 label4.Text = "Error: password tidak terisi";
             }
@@ -43,17 +42,26 @@ namespace StatForm
                     {
                         label4.Text = "Username atau password salah untuk seorang " + selected;
                     }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(dirReference)) label4.Text = "Tim mikrobiologi belum memberikan pola kuman!";
+                        else
+                        {
+                            nextdoc = new DokterUI(dirReference);
+                            nextdoc.Show();
+                        }
+                    }
                 }
                 else if (selected == "Tim mikrobiologi")
                 {
                     loginStatus = userStatus.Login(textBox1.Text, textBox2.Text);
                     if (loginStatus != LoginState.SUDAH_LOGIN)
                     {
-                        label4.Text = "Username atau password salah untuk seorang" + selected;
+                        label4.Text = "Username atau password salah untuk seorang " + selected;
                     }
                     else
                     {
-                        StatsUI stats = new StatsUI();
+                        StatsUI stats = new StatsUI("");
                         stats.Show();
                         Hide();
                     }
@@ -63,12 +71,7 @@ namespace StatForm
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Environment.Exit(0);
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
+            Application.Exit();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

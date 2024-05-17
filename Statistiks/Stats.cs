@@ -11,6 +11,7 @@ namespace CSVAnalytics
         private string filepath; // folder yang isinya csv
         private string csvFile; // file CSV referensi
         private ConfigurationReader conf;
+        public string? ColError;
 
         public CSVTable(string filepath, string csvFile)
         {
@@ -185,6 +186,10 @@ namespace CSVAnalytics
                 if (df.Columns[i].Name.ToLower() == column.ToLower())
                 {
                     accessedCol = df[df.Columns[i].Name]; // supaya case insensitive
+                }
+                else
+                {
+                    ColError = "Error: Bakteri tidak ditemukan";
                 }
             }
 
