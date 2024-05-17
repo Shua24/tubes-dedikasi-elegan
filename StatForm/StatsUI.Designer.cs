@@ -40,7 +40,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(554, 463);
+            button1.Location = new Point(550, 521);
             button1.Name = "button1";
             button1.Size = new Size(141, 23);
             button1.TabIndex = 0;
@@ -50,10 +50,10 @@
             // 
             // Table
             // 
+            Table.AllowDrop = true;
             Table.AllowUserToAddRows = false;
             Table.AllowUserToDeleteRows = false;
             Table.AllowUserToOrderColumns = true;
-            Table.AllowUserToResizeColumns = false;
             Table.AllowUserToResizeRows = false;
             Table.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             Table.EditMode = DataGridViewEditMode.EditProgrammatically;
@@ -61,7 +61,7 @@
             Table.Location = new Point(11, 12);
             Table.Name = "Table";
             Table.ReadOnly = true;
-            Table.Size = new Size(1181, 394);
+            Table.Size = new Size(1181, 444);
             Table.TabIndex = 2;
             // 
             // label2
@@ -85,11 +85,11 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 11F);
-            label4.Location = new Point(318, 426);
+            label4.Location = new Point(323, 485);
             label4.Name = "label4";
-            label4.Size = new Size(594, 20);
+            label4.Size = new Size(642, 20);
             label4.TabIndex = 10;
-            label4.Text = "Selamat Datang, Tim Mikro! Silahkan masukkan tabel data pola kuman yang dibutuhkan!";
+            label4.Text = "Selamat Datang, Tim Mikrobiologi! Silahkan masukkan tabel data pola kuman yang dibutuhkan!";
             // 
             // button4
             // 
@@ -109,6 +109,7 @@
             button2.TabIndex = 11;
             button2.Text = "Logout";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // StatsUI
             // 

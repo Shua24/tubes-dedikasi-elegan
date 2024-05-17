@@ -48,20 +48,21 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F);
-            label1.Location = new Point(420, 430);
+            label1.Location = new Point(444, 427);
             label1.Name = "label1";
-            label1.Size = new Size(404, 21);
+            label1.Size = new Size(350, 21);
             label1.TabIndex = 1;
-            label1.Text = "Selamat Datang, Dokter! Apa yang anda butuhkan disini?";
+            label1.Text = "Selamat Datang! Apa yang anda butuhkan disini?";
             // 
             // button1
             // 
-            button1.Location = new Point(545, 467);
+            button1.Location = new Point(518, 469);
             button1.Name = "button1";
-            button1.Size = new Size(141, 23);
+            button1.Size = new Size(193, 23);
             button1.TabIndex = 2;
-            button1.Text = "Cari top 3";
+            button1.Text = "Cari antibiotik dari pola kuman...";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // button2
             // 
@@ -71,6 +72,7 @@
             button2.TabIndex = 3;
             button2.Text = "Logout";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button3
             // 
@@ -92,7 +94,8 @@
             Controls.Add(label1);
             Controls.Add(dataGridView1);
             Name = "DokterUI";
-            Text = "DokterUI";
+            Text = "Statistika Pola Kuman";
+            Load += DokterUI_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();

@@ -30,12 +30,13 @@
         {
             listBox1 = new ListBox();
             button1 = new Button();
-            label1 = new Label();
+            ScreenTitle = new Label();
             button2 = new Button();
             label2 = new Label();
             textBox1 = new TextBox();
-            button3 = new Button();
             button4 = new Button();
+            button3 = new Button();
+            label3 = new Label();
             SuspendLayout();
             // 
             // listBox1
@@ -56,16 +57,17 @@
             button1.TabIndex = 2;
             button1.Text = "Logout";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
-            // label1
+            // ScreenTitle
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(497, 73);
-            label1.Name = "label1";
-            label1.Size = new Size(257, 25);
-            label1.TabIndex = 3;
-            label1.Text = "Tampilan 3 Antibiotik terbaik!";
+            ScreenTitle.AutoSize = true;
+            ScreenTitle.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ScreenTitle.Location = new Point(497, 39);
+            ScreenTitle.Name = "ScreenTitle";
+            ScreenTitle.Size = new Size(257, 25);
+            ScreenTitle.TabIndex = 3;
+            ScreenTitle.Text = "Tampilan 3 Antibiotik terbaik!";
             // 
             // button2
             // 
@@ -93,15 +95,6 @@
             textBox1.Size = new Size(299, 23);
             textBox1.TabIndex = 6;
             // 
-            // button3
-            // 
-            button3.Location = new Point(823, 262);
-            button3.Name = "button3";
-            button3.Size = new Size(191, 23);
-            button3.TabIndex = 7;
-            button3.Text = "Kembali ke Tabel";
-            button3.UseVisualStyleBackColor = true;
-            // 
             // button4
             // 
             button4.Location = new Point(12, 612);
@@ -110,22 +103,42 @@
             button4.TabIndex = 8;
             button4.Text = "Keluar";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(724, 262);
+            button3.Name = "button3";
+            button3.Size = new Size(143, 23);
+            button3.TabIndex = 9;
+            button3.Text = "Keluar dari pencarian";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(1033, 319);
+            label3.Name = "label3";
+            label3.Size = new Size(0, 15);
+            label3.TabIndex = 10;
             // 
             // DokterUI2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1203, 647);
-            Controls.Add(button4);
+            Controls.Add(label3);
             Controls.Add(button3);
+            Controls.Add(button4);
             Controls.Add(textBox1);
             Controls.Add(label2);
             Controls.Add(button2);
-            Controls.Add(label1);
+            Controls.Add(ScreenTitle);
             Controls.Add(button1);
             Controls.Add(listBox1);
             Name = "DokterUI2";
-            Text = "DokterUI2";
+            Text = "Cari Antibiotik";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -133,11 +146,12 @@
         #endregion
         private ListBox listBox1;
         private Button button1;
-        private Label label1;
+        private Label ScreenTitle;
         private Button button2;
         private Label label2;
         private TextBox textBox1;
-        private Button button3;
         private Button button4;
+        private Button button3;
+        private Label label3;
     }
 }
