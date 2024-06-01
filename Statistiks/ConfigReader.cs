@@ -15,7 +15,6 @@ namespace ConfigurationSettings
             {
                 ReadConfig();
             } 
-
             catch (Exception)
             {
                 SetDefaults();
@@ -34,6 +33,7 @@ namespace ConfigurationSettings
         {
             OperatingSystem os = Environment.OSVersion;
             PlatformID kern = os.Platform;
+
             switch (kern)
             {
                 case PlatformID.Win32NT: config = new Configuration("Windows", @"D:\CSV\"); break;
