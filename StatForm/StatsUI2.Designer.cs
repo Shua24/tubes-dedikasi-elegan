@@ -35,32 +35,34 @@
             button3 = new Button();
             button4 = new Button();
             button5 = new Button();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)Table).BeginInit();
             SuspendLayout();
             // 
             // Table
             // 
             Table.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            Table.Location = new Point(12, 12);
+            Table.Location = new Point(10, 42);
             Table.Name = "Table";
-            Table.Size = new Size(1181, 464);
+            Table.Size = new Size(1181, 444);
             Table.TabIndex = 0;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(476, 479);
+            label1.Font = new Font("Segoe UI", 11F);
+            label1.Location = new Point(447, 497);
             label1.Name = "label1";
-            label1.Size = new Size(296, 21);
+            label1.Size = new Size(283, 20);
             label1.TabIndex = 1;
             label1.Text = "Tabel data pola kuman telah dimasukkan!";
+            label1.Click += label1_Click;
             // 
             // button1
             // 
-            button1.Location = new Point(369, 514);
+            button1.Location = new Point(522, 533);
             button1.Name = "button1";
-            button1.Size = new Size(141, 23);
+            button1.Size = new Size(141, 33);
             button1.TabIndex = 2;
             button1.Text = "Update/Pilih FIle Lain";
             button1.UseVisualStyleBackColor = true;
@@ -68,9 +70,9 @@
             // 
             // button2
             // 
-            button2.Location = new Point(541, 514);
+            button2.Location = new Point(308, 533);
             button2.Name = "button2";
-            button2.Size = new Size(141, 23);
+            button2.Size = new Size(141, 33);
             button2.TabIndex = 3;
             button2.Text = "Hapus";
             button2.UseVisualStyleBackColor = true;
@@ -78,7 +80,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(1116, 612);
+            button3.Location = new Point(1116, 610);
             button3.Name = "button3";
             button3.Size = new Size(75, 23);
             button3.TabIndex = 4;
@@ -88,7 +90,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(12, 612);
+            button4.Location = new Point(12, 610);
             button4.Name = "button4";
             button4.Size = new Size(75, 23);
             button4.TabIndex = 5;
@@ -98,19 +100,30 @@
             // 
             // button5
             // 
-            button5.Location = new Point(736, 514);
+            button5.Location = new Point(719, 532);
             button5.Name = "button5";
-            button5.Size = new Size(158, 23);
+            button5.Size = new Size(158, 33);
             button5.TabIndex = 6;
             button5.Text = "Cari antibiotik terbaik...";
             button5.UseVisualStyleBackColor = true;
             button5.Click += button5_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 11F);
+            label2.Location = new Point(466, 9);
+            label2.Name = "label2";
+            label2.Size = new Size(246, 20);
+            label2.TabIndex = 7;
+            label2.Text = "Selamat Datang, Tim Mikrobiologi! ";
             // 
             // StatsUI2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1203, 647);
+            Controls.Add(label2);
             Controls.Add(button5);
             Controls.Add(button4);
             Controls.Add(button3);
@@ -135,5 +148,6 @@
         private Button button3;
         private Button button4;
         private Button button5;
+        private Label label2;
     }
 }

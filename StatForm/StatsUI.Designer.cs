@@ -35,16 +35,17 @@
             label4 = new Label();
             button4 = new Button();
             button2 = new Button();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)Table).BeginInit();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(550, 521);
+            button1.Location = new Point(522, 533);
             button1.Name = "button1";
-            button1.Size = new Size(141, 23);
+            button1.Size = new Size(141, 33);
             button1.TabIndex = 0;
-            button1.Text = "File Pola Kuman...";
+            button1.Text = "File...";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -58,7 +59,7 @@
             Table.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             Table.EditMode = DataGridViewEditMode.EditProgrammatically;
             Table.Enabled = false;
-            Table.Location = new Point(11, 12);
+            Table.Location = new Point(10, 42);
             Table.Name = "Table";
             Table.ReadOnly = true;
             Table.Size = new Size(1181, 444);
@@ -85,11 +86,11 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 11F);
-            label4.Location = new Point(323, 485);
+            label4.Location = new Point(466, 9);
             label4.Name = "label4";
-            label4.Size = new Size(642, 20);
+            label4.Size = new Size(246, 20);
             label4.TabIndex = 10;
-            label4.Text = "Selamat Datang, Tim Mikrobiologi! Silahkan masukkan tabel data pola kuman yang dibutuhkan!";
+            label4.Text = "Selamat Datang, Tim Mikrobiologi! ";
             // 
             // button4
             // 
@@ -111,11 +112,22 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 11F);
+            label1.Location = new Point(469, 497);
+            label1.Name = "label1";
+            label1.Size = new Size(258, 20);
+            label1.TabIndex = 12;
+            label1.Text = "Pilih file pola kuman yang dibutuhkan";
+            // 
             // StatsUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1203, 647);
+            Controls.Add(label1);
             Controls.Add(button2);
             Controls.Add(label4);
             Controls.Add(label3);
@@ -139,5 +151,6 @@
         private Label label4;
         private Button button4;
         private Button button2;
+        private Label label1;
     }
 }
