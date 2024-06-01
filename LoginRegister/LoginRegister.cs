@@ -1,8 +1,12 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace LoginRegister
 {
-
     public enum LoginState { SUDAH_LOGIN, BELUM_LOGIN }
     public enum Trigger { LOGIN, LOGOUT }
 
@@ -31,16 +35,35 @@ namespace LoginRegister
                 yousef
             }
 
-            public static string s_GetUsername(User user)
+            public static async Task<string> s_GetUsernameAsync(User user)
             {
-                String[] usernames =
+                string[] usernames = Array.Empty<string>();
+
+                using (HttpClient client = new HttpClient())
                 {
-                    "Rakha",
-                    "Joshua",
-                    "Aufa",
-                    "Dzawin",
-                    "Yousef",
-                };
+                    // URL dasar API
+                    client.BaseAddress = new Uri("https://localhost:7032/api/Users");
+
+                    try
+                    {
+                        // Mengambil semua username
+                        HttpResponseMessage response = await client.GetAsync("");
+                        response.EnsureSuccessStatusCode(); // Melempar pengecualian jika status code tidak sukses
+
+                        string jsonString = await response.Content.ReadAsStringAsync();
+                        usernames = JsonSerializer.Deserialize<string[]>(jsonString);
+                    }
+                    catch (HttpRequestException e)
+                    {
+                        Console.WriteLine($"Request error: {e.Message}");
+                        return "Error fetching usernames";
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine($"Unexpected error: {e.Message}");
+                        return "Unexpected error occurred";
+                    }
+                }
 
                 int index = (int)user;
 
@@ -53,7 +76,7 @@ namespace LoginRegister
 
             public static string s_GetPassword(User user)
             {
-                String[] passwords =
+                string[] passwords =
                 {
                     "galih",
                     "daniel",
@@ -89,7 +112,7 @@ namespace LoginRegister
 
                 int index = (int)doctor;
 
-                if (index >= 0 && (index < docUsernames.Length))
+                if (index >= 0 && index < docUsernames.Length)
                 {
                     return docUsernames[index];
                 }
@@ -107,7 +130,7 @@ namespace LoginRegister
 
                 int index = (int)doctor;
 
-                if (index >= 0 && (index < docPasswords.Length))
+                if (index >= 0 && index < docPasswords.Length)
                 {
                     return docPasswords[index];
                 }
@@ -115,29 +138,50 @@ namespace LoginRegister
                 return "Password dokter tidak ditemukan";
             }
 
-            public List<UserLogin> users = new List<UserLogin>
+            public static async Task<List<UserLogin>> InitializeUserLoginsAsync()
             {
-                new UserLogin(s_GetUsername(User.rakha), s_GetPassword(User.rakha)),
-                new UserLogin(s_GetUsername(User.joshua), s_GetPassword(User.joshua)),
-                new UserLogin(s_GetUsername(User.aufa), s_GetPassword(User.aufa)),
-                new UserLogin(s_GetUsername(User.dzawin), s_GetPassword(User.dzawin)),
-                new UserLogin(s_GetUsername(User.yousef), s_GetPassword(User.yousef))
-            };
+                List<UserLogin> users = new List<UserLogin>();
 
-            public List<UserLogin> GetUsers()
-            {
+                users.Add(new UserLogin(await s_GetUsernameAsync(User.rakha), s_GetPassword(User.rakha)));
+                users.Add(new UserLogin(await s_GetUsernameAsync(User.joshua), s_GetPassword(User.joshua)));
+                users.Add(new UserLogin(await s_GetUsernameAsync(User.aufa), s_GetPassword(User.aufa)));
+                users.Add(new UserLogin(await s_GetUsernameAsync(User.dzawin), s_GetPassword(User.dzawin)));
+                users.Add(new UserLogin(await s_GetUsernameAsync(User.yousef), s_GetPassword(User.yousef)));
+
                 return users;
             }
 
-            public List<UserLogin> docs = new List<UserLogin>
+            public static async Task<List<UserLogin>> InitializeDoctorLoginsAsync()
             {
-                new UserLogin(s_GetDocUsername(Doctor.alan), s_GetDocPasswords(Doctor.alan)),
-                new UserLogin(s_GetDocUsername(Doctor.steve), s_GetDocPasswords(Doctor.steve)),
-                new UserLogin(s_GetDocUsername(Doctor.john), s_GetDocPasswords(Doctor.john)),
-            };
+                List<UserLogin> docs = new List<UserLogin>
+                {
+                    new UserLogin(s_GetDocUsername(Doctor.alan), s_GetDocPasswords(Doctor.alan)),
+                    new UserLogin(s_GetDocUsername(Doctor.steve), s_GetDocPasswords(Doctor.steve)),
+                    new UserLogin(s_GetDocUsername(Doctor.john), s_GetDocPasswords(Doctor.john)),
+                };
 
-            public List<UserLogin> GetDocs() { return docs; }
-        };
+                return docs;
+            }
+        }
+
+        public List<UserLogin> users = new List<UserLogin>();
+        public List<UserLogin> docs = new List<UserLogin>();
+
+        public async Task InitializeAsync()
+        {
+            users = await UserList.InitializeUserLoginsAsync();
+            docs = await UserList.InitializeDoctorLoginsAsync();
+        }
+
+        public List<UserLogin> GetUsers()
+        {
+            return users;
+        }
+
+        public List<UserLogin> GetDocs()
+        {
+            return docs;
+        }
 
         public class StateLogin
         {
@@ -210,7 +254,7 @@ namespace LoginRegister
         public void Login()
         {
             StateLogin loginState = new StateLogin();
-            UserList user = new UserList();
+            InitializeAsync();
 
             Console.Write("Login:\nUsername: ");
             string nameinput = Console.ReadLine();
@@ -220,9 +264,9 @@ namespace LoginRegister
             string passwdInput = Console.ReadLine();
             Debug.Assert(!string.IsNullOrEmpty(passwdInput), "Password tidak boleh null");
 
-            for (int i = 0; i < user.users.Count; i++)
+            for (int i = 0; i < users.Count; i++)
             {
-                if ((nameinput == user.users[i]._userName) && (passwdInput == user.users[i]._password))
+                if ((nameinput == users[i]._userName) && (passwdInput == users[i]._password))
                 {
                     loginState.Action(Trigger.LOGIN);
                 }
@@ -234,6 +278,7 @@ namespace LoginRegister
         {
             StateLogin loginState = new StateLogin();
             UserList user = new UserList();
+            InitializeAsync();
 
             Console.Write("Login:\nUsername: ");
             string nameinput = Console.ReadLine();
@@ -241,9 +286,9 @@ namespace LoginRegister
             Console.Write("Password: ");
             string passwdInput = Console.ReadLine();
 
-            for (int i = 0; i < user.docs.Count; i++)
+            for (int i = 0; i < docs.Count; i++)
             {
-                if ((nameinput == user.docs[i]._userName) && (passwdInput == user.docs[i]._password))
+                if ((nameinput == docs[i]._userName) && (passwdInput == docs[i]._password))
                 {
                     loginState.Action(Trigger.LOGIN);
                 }
@@ -254,12 +299,12 @@ namespace LoginRegister
         // untuk GUI
         public LoginState Login(string username, string password)
         {
+            InitializeAsync();
             StateLogin state = new StateLogin();
-            UserList users = new UserList();
 
-            for(int on = 0; on < users.users.Count; on++)
+            for (int on = 0; on < users.Count; on++)
             {
-                if (username == users.users[on]._userName && password == users.users[on]._password)
+                if (username == users[on]._userName && password == users[on]._password)
                 {
                     state.Action(Trigger.LOGIN);
                 }
@@ -273,9 +318,9 @@ namespace LoginRegister
             StateLogin docState = new StateLogin();
             UserList doctors = new UserList();
 
-            for(int at = 0; at < doctors.docs.Count; at++)
+            for (int at = 0; at < docs.Count; at++)
             {
-                if (username == doctors.docs[at]._userName && password == doctors.docs[at]._password)
+                if (username == docs[at]._userName && password == docs[at]._password)
                 {
                     docState.Action(Trigger.LOGIN);
                 }
