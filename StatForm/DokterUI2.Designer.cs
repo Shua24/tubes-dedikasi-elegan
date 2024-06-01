@@ -41,17 +41,17 @@
             // 
             // listBox1
             // 
-            listBox1.Font = new Font("Segoe UI", 20F);
+            listBox1.Font = new Font("Segoe UI", 16F);
             listBox1.FormattingEnabled = true;
-            listBox1.ItemHeight = 37;
-            listBox1.Location = new Point(267, 306);
+            listBox1.ItemHeight = 30;
+            listBox1.Location = new Point(154, 208);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(747, 300);
+            listBox1.Size = new Size(890, 274);
             listBox1.TabIndex = 1;
             // 
             // button1
             // 
-            button1.Location = new Point(1116, 612);
+            button1.Location = new Point(1116, 610);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 2;
@@ -63,7 +63,7 @@
             // 
             ScreenTitle.AutoSize = true;
             ScreenTitle.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            ScreenTitle.Location = new Point(497, 39);
+            ScreenTitle.Location = new Point(482, 27);
             ScreenTitle.Name = "ScreenTitle";
             ScreenTitle.Size = new Size(257, 25);
             ScreenTitle.TabIndex = 3;
@@ -71,7 +71,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(267, 262);
+            button2.Location = new Point(154, 164);
             button2.Name = "button2";
             button2.Size = new Size(191, 23);
             button2.TabIndex = 4;
@@ -82,7 +82,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(267, 193);
+            label2.Location = new Point(154, 95);
             label2.Name = "label2";
             label2.Size = new Size(137, 15);
             label2.TabIndex = 5;
@@ -90,14 +90,14 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(267, 211);
+            textBox1.Location = new Point(154, 113);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(299, 23);
             textBox1.TabIndex = 6;
             // 
             // button4
             // 
-            button4.Location = new Point(12, 612);
+            button4.Location = new Point(12, 610);
             button4.Name = "button4";
             button4.Size = new Size(75, 23);
             button4.TabIndex = 8;
@@ -107,7 +107,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(724, 262);
+            button3.Location = new Point(901, 164);
             button3.Name = "button3";
             button3.Size = new Size(143, 23);
             button3.TabIndex = 9;
