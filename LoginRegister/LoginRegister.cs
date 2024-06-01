@@ -124,12 +124,19 @@ namespace LoginRegister
                 new UserLogin(s_GetUsername(User.yousef), s_GetPassword(User.yousef))
             };
 
+            public List<UserLogin> GetUsers()
+            {
+                return users;
+            }
+
             public List<UserLogin> docs = new List<UserLogin>
             {
                 new UserLogin(s_GetDocUsername(Doctor.alan), s_GetDocPasswords(Doctor.alan)),
                 new UserLogin(s_GetDocUsername(Doctor.steve), s_GetDocPasswords(Doctor.steve)),
                 new UserLogin(s_GetDocUsername(Doctor.john), s_GetDocPasswords(Doctor.john)),
             };
+
+            public List<UserLogin> GetDocs() { return docs; }
         };
 
         public class StateLogin
