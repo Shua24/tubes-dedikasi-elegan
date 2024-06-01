@@ -8,22 +8,196 @@ namespace LoginRegister
 
     public class UserLogin
     {
-        private LoginState stateLogin;
-        private string UserName { get; set; }
-        private string Password { get; set; }
+        private LoginState _stateLogin;
+        private string _userName { get; set; }
+        private string _password { get; set; }
 
-        public UserLogin(string UserName, string Password)
+        public UserLogin(string username, string password)
         {
-            this.UserName = UserName;
-            this.Password = Password;
+            this._userName = username;
+            this._password = password;
         }
 
         public UserLogin() { }
 
+        public class UserList
+        {
+            public enum User
+            {
+                rakha,
+                joshua,
+                aufa,
+                dzawin,
+                yousef
+            }
+
+            public static string s_GetUsername(User user)
+            {
+                String[] usernames =
+                {
+                    "Rakha",
+                    "Joshua",
+                    "Aufa",
+                    "Dzawin",
+                    "Yousef",
+                };
+
+                int index = (int)user;
+
+                if (index >= 0 && index < usernames.Length)
+                {
+                    return usernames[index];
+                }
+                return "Username Tidak Ditemukan";
+            }
+
+            public static string s_GetPassword(User user)
+            {
+                String[] passwords =
+                {
+                    "galih",
+                    "daniel",
+                    "taqiyya",
+                    "nuha",
+                    "gumilar",
+                };
+
+                int index = (int)user;
+
+                if (index >= 0 && index < passwords.Length)
+                {
+                    return passwords[index];
+                }
+                return "Password Tidak Ditemukan";
+            }
+
+            public enum Doctor
+            {
+                john,
+                steve,
+                alan
+            }
+
+            public static string s_GetDocUsername(Doctor doctor)
+            {
+                string[] docUsernames =
+                {
+                    "John",
+                    "Steve",
+                    "Alan"
+                };
+
+                int index = (int)doctor;
+
+                if (index >= 0 && (index < docUsernames.Length))
+                {
+                    return docUsernames[index];
+                }
+                return "Username dokter tidak ditemukan";
+            }
+
+            public static string s_GetDocPasswords(Doctor doctor)
+            {
+                string[] docPasswords =
+                {
+                    "doe",
+                    "allen",
+                    "bob"
+                };
+
+                int index = (int)doctor;
+
+                if (index >= 0 && (index < docPasswords.Length))
+                {
+                    return docPasswords[index];
+                }
+
+                return "Password dokter tidak ditemukan";
+            }
+
+            public List<UserLogin> users = new List<UserLogin>
+            {
+                new UserLogin(s_GetUsername(User.rakha), s_GetPassword(User.rakha)),
+                new UserLogin(s_GetUsername(User.joshua), s_GetPassword(User.joshua)),
+                new UserLogin(s_GetUsername(User.aufa), s_GetPassword(User.aufa)),
+                new UserLogin(s_GetUsername(User.dzawin), s_GetPassword(User.dzawin)),
+                new UserLogin(s_GetUsername(User.yousef), s_GetPassword(User.yousef))
+            };
+
+            public List<UserLogin> docs = new List<UserLogin>
+            {
+                new UserLogin(s_GetDocUsername(Doctor.alan), s_GetDocPasswords(Doctor.alan)),
+                new UserLogin(s_GetDocUsername(Doctor.steve), s_GetDocPasswords(Doctor.steve)),
+                new UserLogin(s_GetDocUsername(Doctor.john), s_GetDocPasswords(Doctor.john)),
+            };
+        };
+
+        public class StateLogin
+        {
+            public LoginState current;
+            public StateLogin()
+            {
+                current = LoginState.BELUM_LOGIN;
+            }
+
+            Transition[] transitions =
+            {
+                new Transition(LoginState.BELUM_LOGIN, Trigger.LOGIN, LoginState.SUDAH_LOGIN),
+                new Transition(LoginState.SUDAH_LOGIN, Trigger.LOGOUT, LoginState.BELUM_LOGIN),
+            };
+
+            public LoginState NextState(LoginState initLoginState, Trigger trigger)
+            {
+                LoginState stateAkhir = initLoginState;
+
+                for (int i = 0; i < transitions.Length; i++)
+                {
+                    Transition transition = transitions[i];
+
+                    if (initLoginState == transition.stateAwal && trigger == transition.trigger)
+                    {
+                        stateAkhir = transitions[i].stateAkhir;
+                    }
+                }
+                return stateAkhir;
+            }
+
+            public void Action(Trigger trigger)
+            {
+                current = NextState(current, trigger);
+
+                if (current == LoginState.BELUM_LOGIN && trigger == Trigger.LOGIN)
+                {
+                    Console.WriteLine("Silahkan Login");
+                }
+                else if (current == LoginState.SUDAH_LOGIN && trigger == Trigger.LOGIN)
+                {
+                    Console.WriteLine("Sudah Masuk");
+                }
+                else if (current == LoginState.SUDAH_LOGIN && trigger == Trigger.LOGOUT)
+                {
+                    Console.WriteLine("User Logout");
+                }
+            }
+        }
+
+        public class Transition
+        {
+            public LoginState stateAwal;
+            public Trigger trigger;
+            public LoginState stateAkhir;
+
+            public Transition(LoginState stateAwal, Trigger trigger, LoginState stateAkhir)
+            {
+                this.stateAwal = stateAwal;
+                this.trigger = trigger;
+                this.stateAkhir = stateAkhir;
+            }
+        }
 
         public LoginState getLoginState()
         {
-            return this.stateLogin;
+            return this._stateLogin;
         }
 
         public void Login()
@@ -41,13 +215,12 @@ namespace LoginRegister
 
             for (int i = 0; i < user.users.Count; i++)
             {
-                if ((nameinput == user.users[i].UserName) && (passwdInput == user.users[i].Password))
+                if ((nameinput == user.users[i]._userName) && (passwdInput == user.users[i]._password))
                 {
                     loginState.Action(Trigger.LOGIN);
                 }
             }
-
-            this.stateLogin = loginState.Current;
+            this._stateLogin = loginState.current;
         }
 
         public void LoginDoc()
@@ -63,13 +236,12 @@ namespace LoginRegister
 
             for (int i = 0; i < user.docs.Count; i++)
             {
-                if ((nameinput == user.docs[i].UserName) && (passwdInput == user.docs[i].Password))
+                if ((nameinput == user.docs[i]._userName) && (passwdInput == user.docs[i]._password))
                 {
                     loginState.Action(Trigger.LOGIN);
                 }
             }
-
-            this.stateLogin = loginState.Current;
+            this._stateLogin = loginState.current;
         }
 
         // untuk GUI
@@ -80,13 +252,13 @@ namespace LoginRegister
 
             for(int on = 0; on < users.users.Count; on++)
             {
-                if (username == users.users[on].UserName && password == users.users[on].Password)
+                if (username == users.users[on]._userName && password == users.users[on]._password)
                 {
                     state.Action(Trigger.LOGIN);
                 }
             }
-            stateLogin = state.Current;
-            return stateLogin;
+            _stateLogin = state.current;
+            return _stateLogin;
         }
 
         public LoginState DocLogin(string username, string password)
@@ -96,189 +268,20 @@ namespace LoginRegister
 
             for(int at = 0; at < doctors.docs.Count; at++)
             {
-                if (username == doctors.docs[at].UserName && password == doctors.docs[at].Password)
+                if (username == doctors.docs[at]._userName && password == doctors.docs[at]._password)
                 {
                     docState.Action(Trigger.LOGIN);
                 }
             }
-
-            stateLogin = docState.Current;
-
-            return stateLogin;
+            _stateLogin = docState.current;
+            return _stateLogin;
         }
 
         public void Logout()
         {
             StateLogin loginState = new StateLogin();
             loginState.Action(Trigger.LOGOUT);
-            this.stateLogin = loginState.Current;
+            this._stateLogin = loginState.current;
         }
     }
-
-    public class StateLogin
-    {
-        public LoginState Current;
-        public StateLogin()
-        {
-            Current = LoginState.BELUM_LOGIN;
-        }
-
-        Transition[] transitions =
-        {
-            new Transition(LoginState.BELUM_LOGIN, Trigger.LOGIN, LoginState.SUDAH_LOGIN),
-            new Transition(LoginState.SUDAH_LOGIN, Trigger.LOGOUT, LoginState.BELUM_LOGIN),
-        };
-
-        public LoginState NextState(LoginState initLoginState, Trigger trigger)
-        {
-            LoginState stateAkhir = initLoginState;
-            for (int i = 0; i < transitions.Length; i++)
-            {
-                Transition transition = transitions[i];
-                if (initLoginState == transition.stateAwal && trigger == transition.trigger)
-                {
-                    stateAkhir = transitions[i].stateAkhir;
-                }
-            }
-            return stateAkhir;
-        }
-
-        public void Action(Trigger trigger)
-        {
-
-            Current = NextState(Current, trigger);
-
-            if (Current == LoginState.BELUM_LOGIN && trigger == Trigger.LOGIN)
-            {
-                Console.WriteLine("Silahkan Login");
-            }
-            else if (Current == LoginState.SUDAH_LOGIN && trigger == Trigger.LOGIN)
-            {
-                Console.WriteLine("Sudah Masuk");
-            }
-            else if (Current == LoginState.SUDAH_LOGIN && trigger == Trigger.LOGOUT)
-            {
-                Console.WriteLine("User Logout");
-            }
-        }
-    }
-
-    public class Transition
-    {
-        public LoginState stateAwal;
-        public Trigger trigger;
-        public LoginState stateAkhir;
-
-        public Transition(LoginState stateAwal, Trigger trigger, LoginState stateAkhir)
-        {
-            this.stateAwal = stateAwal;
-            this.trigger = trigger;
-            this.stateAkhir = stateAkhir;
-        }
-    }
-
-    public class UserList
-    {
-        public enum User
-        {
-            rakha,
-            joshua,
-            aufa,
-            dzawin,
-            yousef
-        }
-
-        public static string GetUsername(User user)
-        {
-            String[] usernames =
-            {
-                 "Rakha",
-                 "Joshua",
-                 "Aufa",
-                 "Dzawin",
-                 "Yousef",
-            };
-            int index = (int)user;
-            if (index >= 0 && index < usernames.Length)
-            {
-                return usernames[index];
-            }
-            return "Username Tidak Ditemukan";
-        }
-
-        public static string GetPassword(User user)
-        {
-            String[] passwords =
-            {
-                "galih",
-                "daniel",
-                "taqiyya",
-                "nuha",
-                "gumilar",
-            };
-            int index = (int)user;
-            if (index >= 0 && index < passwords.Length)
-            {
-                return passwords[index];
-            }
-            return "Password Tidak Ditemukan";
-        }
-
-        public enum Doctors
-        {
-            john,
-            steve,
-            alan
-        }
-
-        public static string GetDocUsername(Doctors doctors)
-        {
-            string[] docUsernames =
-            {
-                "John",
-                "Steve",
-                "Alan"
-            };
-            int index = (int)doctors;
-            if(index >= 0 && (index < docUsernames.Length))
-            {
-                return docUsernames[index];
-            }
-            return "Username dokter tidak ditemukan";
-        }
-
-        public static string GetDocPasswords(Doctors doctors)
-        {
-            string[] docPasswords =
-            {
-                "doe",
-                "allen",
-                "bob"
-            };
-            int index = (int)doctors;
-            if(index >= 0 && (index < docPasswords.Length))
-            {
-                return docPasswords[index];
-            }
-
-            return "Password dokter tidak ditemukan";
-        }
-
-        public List<UserLogin> users = new List<UserLogin>
-        {
-            new UserLogin(GetUsername(User.rakha), GetPassword(User.rakha)),
-            new UserLogin(GetUsername(User.joshua), GetPassword(User.joshua)),
-            new UserLogin(GetUsername(User.aufa), GetPassword(User.aufa)),
-            new UserLogin(GetUsername(User.dzawin), GetPassword(User.dzawin)),
-            new UserLogin(GetUsername(User.yousef), GetPassword(User.yousef))
-        };
-
-        public List<UserLogin> docs = new List<UserLogin>
-        {
-            new UserLogin(GetDocUsername(Doctors.alan), GetDocPasswords(Doctors.alan)),
-            new UserLogin(GetDocUsername(Doctors.steve), GetDocPasswords(Doctors.steve)),
-            new UserLogin(GetDocUsername(Doctors.john), GetDocPasswords(Doctors.john)),
-        };
-    }
-
 }
