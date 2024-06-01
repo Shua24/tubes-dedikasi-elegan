@@ -16,6 +16,7 @@ namespace StatForm
     public partial class DokterUI2 : Form
     {
         private string dirReference;
+
         public DokterUI2(string dirReference)
         {
             InitializeComponent();
@@ -26,14 +27,19 @@ namespace StatForm
         {
             string input = textBox1.Text;
             Debug.Assert(!string.IsNullOrEmpty(input));
-
             CSVTable tab = new CSVTable(dirReference, string.Empty);
-            
-            if(!string.IsNullOrEmpty(tab.ColError)) label3.Text = tab.ColError;
+
+            if (!string.IsNullOrEmpty(tab.ColError)) 
+            { 
+                label3.Text = tab.ColError; 
+            }
             
             List<(object, object)> list = tab.CsvStats(input);
 
-            if (listBox1.Items.Count != 0) listBox1.Items.Clear();
+            if (listBox1.Items.Count != 0) 
+            { 
+                listBox1.Items.Clear(); 
+            }
 
             foreach (var item in list)
             {
