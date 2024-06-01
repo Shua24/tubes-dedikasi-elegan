@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Statistiks\Statistiks.csproj" />
+    <ProjectReference Include="..\UnitTestingLoginRegister\UnitTestingLoginRegister.csproj" />
   </ItemGroup>
 
   <ItemGroup>

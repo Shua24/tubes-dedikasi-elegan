@@ -1,5 +1,6 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LoginRegister;
-using static LoginRegister.UserList;
+using static LoginRegister.UserLogin;
 
 namespace UnitTestingLoginRegister
 {
@@ -9,14 +10,14 @@ namespace UnitTestingLoginRegister
         [TestMethod]
         public void AutomataTest()
         {
-            //Arange
+            // Arrange
             LoginState expected = LoginState.SUDAH_LOGIN;
 
-            //Act
+            // Act
             StateLogin state = new StateLogin();
-            LoginState result = state.NextState(state.Current, Trigger.LOGIN);
+            LoginState result = state.NextState(state.current, Trigger.LOGIN);
 
-            //Assert
+            // Assert
             Assert.AreEqual(expected, result);
         }
 
@@ -27,24 +28,23 @@ namespace UnitTestingLoginRegister
             string expectedUsername = "Rakha";
 
             // Act
-            string result = UserList.GetUsername(UserList.User.rakha);
+            string result = UserList.s_GetUsername(UserList.User.rakha);
 
             // Assert
-            Assert.AreEqual(result, expectedUsername);
-            
+            Assert.AreEqual(expectedUsername, result);
         }
 
         [TestMethod]
         public void CodeReuseLibraryTest()
         {
-            //Arange
+            // Arrange
             LoginState expected = LoginState.SUDAH_LOGIN;
 
-            //Act
+            // Act
             StateLogin state = new StateLogin();
-            LoginState result = state.NextState(state.Current, Trigger.LOGIN);
+            LoginState result = state.NextState(state.current, Trigger.LOGIN);
 
-            //Assert
+            // Assert
             Assert.AreEqual(expected, result);
         }
     }

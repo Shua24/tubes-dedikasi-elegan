@@ -30,14 +30,13 @@ namespace StatForm
             foreach (var row in dataFrame.Rows)
             {
                 var values = new object[dataFrame.Columns.Count];
+
                 for (int i = 0; i < dataFrame.Columns.Count; i++)
                 {
                     values[i] = row[i];
                 }
-
                 dt.Rows.Add(values);
             }
-
             return dt;
         }
 
@@ -46,10 +45,12 @@ namespace StatForm
             for (int i = 0; i < df.Rows.Count; i++)
             {
                 var row = df.Rows[i];
+
                 for (int j = 0; j < df.Columns.Count; j++)
                 {
                     var column = df.Columns[j];
                     var dataType = column.DataType;
+
                     if (row[j] == null)
                     {
                         if (dataType == typeof(int))
@@ -78,6 +79,7 @@ namespace StatForm
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
                 ofd.Filter = "CSV files (*.csv) | *.csv";
+
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     DataFrame df = DataFrame.LoadCsv(ofd.FileName);
@@ -101,7 +103,5 @@ namespace StatForm
             Login login = new Login("");
             login.Show();
         }
-
-        // TODO: Buat UI untuk dokter (hampir sama seperti UI tim mikrobiologi)
     }
 }

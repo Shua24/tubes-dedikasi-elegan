@@ -15,10 +15,8 @@ namespace StatForm
         {
             LoginState loginStatus;
             UserLogin userStatus = new UserLogin();
-
             object selectedRole = comboBox1.SelectedItem;
-
-            DokterUI nextdoc;
+            DokterUI nextDoc;
 
             if (selectedRole == null)
             {
@@ -35,27 +33,33 @@ namespace StatForm
             else
             {
                 string selected = comboBox1.SelectedItem.ToString();
+
                 if (selected == "Dokter")
                 {
                     loginStatus = userStatus.DocLogin(textBox1.Text, textBox2.Text);
+
                     if (loginStatus != LoginState.SUDAH_LOGIN)
                     {
                         label4.Text = "Username atau password salah untuk seorang " + selected;
                     }
                     else
                     {
-                        if (string.IsNullOrEmpty(dirReference)) label4.Text = "Tim mikrobiologi belum memberikan pola kuman!";
+                        if (string.IsNullOrEmpty(dirReference))
+                        {
+                            label4.Text = "Tim mikrobiologi belum memberikan pola kuman!";
+                        }
                         else
                         {
                             Hide();
-                            nextdoc = new DokterUI(dirReference);
-                            nextdoc.Show();
+                            nextDoc = new DokterUI(dirReference);
+                            nextDoc.Show();
                         }
                     }
                 }
                 else if (selected == "Tim mikrobiologi")
                 {
                     loginStatus = userStatus.Login(textBox1.Text, textBox2.Text);
+
                     if (loginStatus != LoginState.SUDAH_LOGIN)
                     {
                         label4.Text = "Username atau password salah untuk seorang " + selected;
