@@ -251,10 +251,10 @@ namespace LoginRegister
             return this._stateLogin;
         }
 
-        public void Login()
+        public async void Login()
         {
             StateLogin loginState = new StateLogin();
-            InitializeAsync();
+            await InitializeAsync();
 
             Console.Write("Login:\nUsername: ");
             string nameinput = Console.ReadLine();
@@ -274,11 +274,11 @@ namespace LoginRegister
             this._stateLogin = loginState.current;
         }
 
-        public void LoginDoc()
+        public async void LoginDoc()
         {
             StateLogin loginState = new StateLogin();
             UserList user = new UserList();
-            InitializeAsync();
+            await InitializeAsync();
 
             Console.Write("Login:\nUsername: ");
             string nameinput = Console.ReadLine();
@@ -297,9 +297,9 @@ namespace LoginRegister
         }
 
         // untuk GUI
-        public LoginState Login(string username, string password)
+        public async void Login(string username, string password)
         {
-            InitializeAsync();
+            await InitializeAsync();
             StateLogin state = new StateLogin();
 
             for (int on = 0; on < users.Count; on++)
@@ -310,13 +310,12 @@ namespace LoginRegister
                 }
             }
             _stateLogin = state.current;
-            return _stateLogin;
         }
 
-        public LoginState DocLogin(string username, string password)
+        public async void DocLogin(string username, string password)
         {
+            await InitializeAsync();
             StateLogin docState = new StateLogin();
-            UserList doctors = new UserList();
 
             for (int at = 0; at < docs.Count; at++)
             {
@@ -326,7 +325,6 @@ namespace LoginRegister
                 }
             }
             _stateLogin = docState.current;
-            return _stateLogin;
         }
 
         public void Logout()

@@ -36,8 +36,8 @@ namespace StatForm
 
                 if (selected == "Dokter")
                 {
-                    loginStatus = userStatus.DocLogin(textBox1.Text, textBox2.Text);
-
+                    userStatus.DocLogin(textBox1.Text, textBox2.Text);
+                    loginStatus = userStatus.getLoginState();
                     if (loginStatus != LoginState.SUDAH_LOGIN)
                     {
                         label4.Text = "Username atau password salah untuk seorang " + selected;
@@ -58,8 +58,8 @@ namespace StatForm
                 }
                 else if (selected == "Tim mikrobiologi")
                 {
-                    loginStatus = userStatus.Login(textBox1.Text, textBox2.Text);
-
+                    userStatus.Login(textBox1.Text, textBox2.Text);
+                    loginStatus = userStatus.getLoginState();
                     if (loginStatus != LoginState.SUDAH_LOGIN)
                     {
                         label4.Text = "Username atau password salah untuk seorang " + selected;
