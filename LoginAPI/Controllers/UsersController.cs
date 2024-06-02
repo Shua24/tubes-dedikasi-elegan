@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using LoginRegister;
+using Microsoft.AspNetCore.Identity;
 
 namespace LoginAPI.Controllers
 {
@@ -8,7 +9,7 @@ namespace LoginAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        String[] usernames =
+        static String[] usernames =
         {
              "Rakha",
              "Joshua",
@@ -20,23 +21,36 @@ namespace LoginAPI.Controllers
              "Alan"
         };
 
-        string[] docUsernames =
+        static string[] passwords =
         {
-            
+            "galih",
+            "daniel",
+            "taqiyya",
+            "nuha",
+            "gumilar",
+            "doe",
+            "allen",
+            "bob"
         };
 
+        private List<string> usernameList = usernames.ToList();
+        private List<string> passwordsList = passwords.ToList();
+
+        List<Users> userList = usernames
+        .Zip(passwords, (user, pass) => new Users(user, pass))
+        .ToList();
 
 
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Users Get(int id)
         {
-            return usernames[id];
+            return userList[id];
         }
 
         [HttpGet]
-        public string[] Get()
+        public List<Users> Get()
         {
-            return usernames;
+            return userList;
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -23,6 +24,59 @@ namespace LoginRegister
         }
 
         public UserLogin() { }
+
+        public class Hasher
+        {
+            private const int SaltSize = 16;
+            private const int KeySize = 32;
+            private const int Iterations = 10000;
+            private static readonly HashAlgorithmName HashAlgorithm = HashAlgorithmName.SHA256;
+
+            public static string HashPassword(string password)
+            {
+                byte[] salt = new byte[SaltSize];
+                using (var rng = RandomNumberGenerator.Create())
+                {
+                    rng.GetBytes(salt);
+                }
+
+                var pbkdf2 = new Rfc2898DeriveBytes(password, salt, Iterations, HashAlgorithm);
+                byte[] hash = pbkdf2.GetBytes(KeySize);
+
+                byte[] hashBytes = new byte[SaltSize + KeySize];
+                Array.Copy(salt, 0, hashBytes, 0, SaltSize);
+                Array.Copy(hash, 0, hashBytes, SaltSize, KeySize);
+
+                string base64Hash = Convert.ToBase64String(hashBytes);
+
+                return base64Hash;
+            }
+
+            public static bool Verify(string password, string base64Hash)
+            {
+                byte[] hashBytes = Convert.FromBase64String(base64Hash);
+
+                byte[] salt = new byte[SaltSize];
+                Array.Copy(hashBytes, 0, salt, 0, SaltSize);
+
+                byte[] storedHash = new byte[KeySize];
+                Array.Copy(hashBytes, SaltSize, storedHash, 0, KeySize);
+
+                var pbkdf2 = new Rfc2898DeriveBytes(password, salt, Iterations, HashAlgorithm);
+                byte[] hash = pbkdf2.GetBytes(KeySize);
+
+                // Compare the hashes
+                for (int i = 0; i < KeySize; i++)
+                {
+                    if (storedHash[i] != hash[i])
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
 
         public class UserList
         {
@@ -142,11 +196,11 @@ namespace LoginRegister
             {
                 List<UserLogin> users = new List<UserLogin>();
 
-                users.Add(new UserLogin(await s_GetUsernameAsync(User.rakha), s_GetPassword(User.rakha)));
-                users.Add(new UserLogin(await s_GetUsernameAsync(User.joshua), s_GetPassword(User.joshua)));
-                users.Add(new UserLogin(await s_GetUsernameAsync(User.aufa), s_GetPassword(User.aufa)));
-                users.Add(new UserLogin(await s_GetUsernameAsync(User.dzawin), s_GetPassword(User.dzawin)));
-                users.Add(new UserLogin(await s_GetUsernameAsync(User.yousef), s_GetPassword(User.yousef)));
+                users.Add(new UserLogin(await s_GetUsernameAsync(User.rakha), Hasher.HashPassword(s_GetPassword(User.rakha))));
+                users.Add(new UserLogin(await s_GetUsernameAsync(User.joshua), Hasher.HashPassword(s_GetPassword(User.joshua))));
+                users.Add(new UserLogin(await s_GetUsernameAsync(User.aufa), Hasher.HashPassword(s_GetPassword(User.aufa))));
+                users.Add(new UserLogin(await s_GetUsernameAsync(User.dzawin), Hasher.HashPassword(s_GetPassword(User.dzawin))));
+                users.Add(new UserLogin(await s_GetUsernameAsync(User.yousef), Hasher.HashPassword(s_GetPassword(User.yousef))));
 
                 return users;
             }
@@ -246,6 +300,7 @@ namespace LoginRegister
             }
         }
 
+
         public LoginState getLoginState()
         {
             return this._stateLogin;
@@ -302,9 +357,11 @@ namespace LoginRegister
             await InitializeAsync();
             StateLogin state = new StateLogin();
 
+            string hashed = Hasher.HashPassword(password);
+
             for (int on = 0; on < users.Count; on++)
             {
-                if (username == users[on]._userName && password == users[on]._password)
+                if (username == users[on]._userName && Hasher.Verify(password, hashed))
                 {
                     state.Action(Trigger.LOGIN);
                 }
