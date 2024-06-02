@@ -27,10 +27,10 @@ namespace LoginRegister
 
         public class Hasher
         {
-            private const int SaltSize = 16;
+            private const int SaltSize = 32; // Salt: sedikit ke-random-an hashing
             private const int KeySize = 32;
-            private const int Iterations = 10000;
-            private static readonly HashAlgorithmName HashAlgorithm = HashAlgorithmName.SHA256;
+            private const int Iterations = 10000; // iterasi hash, semakin besar, semakin secure
+            private static readonly HashAlgorithmName HashAlgorithm = HashAlgorithmName.SHA512; // algoritma hash di atas standar
 
             public static string HashPassword(string password)
             {
