@@ -30,6 +30,14 @@ namespace StatForm
             {
                 label4.Text = "Error: password tidak terisi";
             }
+            else if (textBox1.Text.Length < 3)
+            {
+                label4.Text = "Panjang username minimal 3 karakter";
+            }
+            else if (textBox2.Text.Length < 3)
+            {
+                label4.Text = "Panjang password minimal 3 karakter";
+            }
             else
             {
                 string selected = comboBox1.SelectedItem.ToString();
