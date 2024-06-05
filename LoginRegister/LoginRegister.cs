@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
+﻿using System.Diagnostics;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace LoginRegister
 {
@@ -13,7 +9,7 @@ namespace LoginRegister
 
     public class UserLogin
     {
-        private LoginState _stateLogin;
+        private LoginState _stateLogin = LoginState.BELUM_LOGIN;
         private string _userName { get; set; }
         private string _password { get; set; }
 
@@ -27,26 +23,32 @@ namespace LoginRegister
 
         public class Hasher
         {
-            private const int SaltSize = 32; // Salt: sedikit ke-random-an hashing
-            private const int KeySize = 32;
-            private const int Iterations = 10000; // iterasi hash, semakin besar, semakin secure
-            private static readonly HashAlgorithmName HashAlgorithm = HashAlgorithmName.SHA512; // algoritma hash di atas standar
+            private const int SaltSize = 32; // 256 bit
+            private const int KeySize = 64; // 512 bit
+            private const int Iterations = 10000; // Number of PBKDF2 iterations
 
             public static string HashPassword(string password)
             {
+                // Generate a salt
                 byte[] salt = new byte[SaltSize];
                 using (var rng = RandomNumberGenerator.Create())
                 {
                     rng.GetBytes(salt);
                 }
 
-                var pbkdf2 = new Rfc2898DeriveBytes(password, salt, Iterations, HashAlgorithm);
-                byte[] hash = pbkdf2.GetBytes(KeySize);
+                // Generate the hash
+                byte[] hash;
+                using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, Iterations))
+                {
+                    hash = pbkdf2.GetBytes(KeySize);
+                }
 
+                // Combine salt and hash
                 byte[] hashBytes = new byte[SaltSize + KeySize];
                 Array.Copy(salt, 0, hashBytes, 0, SaltSize);
                 Array.Copy(hash, 0, hashBytes, SaltSize, KeySize);
 
+                // Convert to base64
                 string base64Hash = Convert.ToBase64String(hashBytes);
 
                 return base64Hash;
@@ -54,16 +56,23 @@ namespace LoginRegister
 
             public static bool Verify(string password, string base64Hash)
             {
+                // Get the bytes from the stored hash
                 byte[] hashBytes = Convert.FromBase64String(base64Hash);
 
+                // Extract the salt
                 byte[] salt = new byte[SaltSize];
                 Array.Copy(hashBytes, 0, salt, 0, SaltSize);
 
+                // Extract the hash
                 byte[] storedHash = new byte[KeySize];
                 Array.Copy(hashBytes, SaltSize, storedHash, 0, KeySize);
 
-                var pbkdf2 = new Rfc2898DeriveBytes(password, salt, Iterations, HashAlgorithm);
-                byte[] hash = pbkdf2.GetBytes(KeySize);
+                // Hash the input password with the stored salt
+                byte[] hash;
+                using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, Iterations))
+                {
+                    hash = pbkdf2.GetBytes(KeySize);
+                }
 
                 // Compare the hashes
                 for (int i = 0; i < KeySize; i++)
@@ -89,35 +98,16 @@ namespace LoginRegister
                 yousef
             }
 
-            public static async Task<string> s_GetUsernameAsync(User user)
+            public static string s_GetUsername(User user)
             {
-                string[] usernames = Array.Empty<string>();
-
-                using (HttpClient client = new HttpClient())
+                string[] usernames =
                 {
-                    // URL dasar API
-                    client.BaseAddress = new Uri("https://localhost:7032/api/Users");
-
-                    try
-                    {
-                        // Mengambil semua username
-                        HttpResponseMessage response = await client.GetAsync("");
-                        response.EnsureSuccessStatusCode(); // Melempar pengecualian jika status code tidak sukses
-
-                        string jsonString = await response.Content.ReadAsStringAsync();
-                        usernames = JsonSerializer.Deserialize<string[]>(jsonString);
-                    }
-                    catch (HttpRequestException e)
-                    {
-                        Console.WriteLine($"Request error: {e.Message}");
-                        return "Error fetching usernames";
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine($"Unexpected error: {e.Message}");
-                        return "Unexpected error occurred";
-                    }
-                }
+                    "Rakha",
+                    "Joshua",
+                    "Aufa",
+                    "Dzawin",
+                    "Yousef",
+                };
 
                 int index = (int)user;
 
@@ -192,50 +182,29 @@ namespace LoginRegister
                 return "Password dokter tidak ditemukan";
             }
 
-            public static async Task<List<UserLogin>> InitializeUserLoginsAsync()
+            public List<UserLogin> users = new List<UserLogin>
             {
-                List<UserLogin> users = new List<UserLogin>();
+                new UserLogin(s_GetUsername(User.rakha), s_GetPassword(User.rakha)),
+                new UserLogin(s_GetUsername(User.joshua), s_GetPassword(User.joshua)),
+                new UserLogin(s_GetUsername(User.aufa), s_GetPassword(User.aufa)),
+                new UserLogin(s_GetUsername(User.dzawin), s_GetPassword(User.dzawin)),
+                new UserLogin(s_GetUsername(User.yousef), s_GetPassword(User.yousef))
+            };
 
-                users.Add(new UserLogin(await s_GetUsernameAsync(User.rakha), Hasher.HashPassword(s_GetPassword(User.rakha))));
-                users.Add(new UserLogin(await s_GetUsernameAsync(User.joshua), Hasher.HashPassword(s_GetPassword(User.joshua))));
-                users.Add(new UserLogin(await s_GetUsernameAsync(User.aufa), Hasher.HashPassword(s_GetPassword(User.aufa))));
-                users.Add(new UserLogin(await s_GetUsernameAsync(User.dzawin), Hasher.HashPassword(s_GetPassword(User.dzawin))));
-                users.Add(new UserLogin(await s_GetUsernameAsync(User.yousef), Hasher.HashPassword(s_GetPassword(User.yousef))));
-
+            public List<UserLogin> GetUsers()
+            {
                 return users;
             }
 
-            public static async Task<List<UserLogin>> InitializeDoctorLoginsAsync()
+            public List<UserLogin> docs = new List<UserLogin>
             {
-                List<UserLogin> docs = new List<UserLogin>
-                {
-                    new UserLogin(s_GetDocUsername(Doctor.alan), s_GetDocPasswords(Doctor.alan)),
-                    new UserLogin(s_GetDocUsername(Doctor.steve), s_GetDocPasswords(Doctor.steve)),
-                    new UserLogin(s_GetDocUsername(Doctor.john), s_GetDocPasswords(Doctor.john)),
-                };
+                new UserLogin(s_GetDocUsername(Doctor.alan), s_GetDocPasswords(Doctor.alan)),
+                new UserLogin(s_GetDocUsername(Doctor.steve), s_GetDocPasswords(Doctor.steve)),
+                new UserLogin(s_GetDocUsername(Doctor.john), s_GetDocPasswords(Doctor.john)),
+            };
 
-                return docs;
-            }
-        }
-
-        public List<UserLogin> users = new List<UserLogin>();
-        public List<UserLogin> docs = new List<UserLogin>();
-
-        public async Task InitializeAsync()
-        {
-            users = await UserList.InitializeUserLoginsAsync();
-            docs = await UserList.InitializeDoctorLoginsAsync();
-        }
-
-        public List<UserLogin> GetUsers()
-        {
-            return users;
-        }
-
-        public List<UserLogin> GetDocs()
-        {
-            return docs;
-        }
+            public List<UserLogin> GetDocs() { return docs; }
+        };
 
         public class StateLogin
         {
@@ -300,50 +269,38 @@ namespace LoginRegister
             }
         }
 
-
         public LoginState getLoginState()
         {
             return this._stateLogin;
         }
 
-        public async void Login()
+        public void Login()
         {
-            StateLogin loginState = new StateLogin();
-            await InitializeAsync();
+            string nameinput = GetInput("Login:\nUsername: ");
+            string passwdInput = GetInput("Password: ");
 
-            Console.Write("Login:\nUsername: ");
-            string nameinput = Console.ReadLine();
-            Debug.Assert(!string.IsNullOrEmpty(nameinput), "Username tidak boleh null");
-
-            Console.Write("Password: ");
-            string passwdInput = Console.ReadLine();
-            Debug.Assert(!string.IsNullOrEmpty(passwdInput), "Password tidak boleh null");
-
-            for (int i = 0; i < users.Count; i++)
-            {
-                if ((nameinput == users[i]._userName) && (passwdInput == users[i]._password))
-                {
-                    loginState.Action(Trigger.LOGIN);
-                }
-            }
-            this._stateLogin = loginState.current;
+            LoginHelper(nameinput, passwdInput, false);
         }
 
-        public async void LoginDoc()
+        public void LoginDoc()
+        {
+            string nameinput = GetInput("Login:\nUsername: ");
+            string passwdInput = GetInput("Password: ");
+
+            LoginHelper(nameinput, passwdInput, true);
+        }
+
+        private void LoginHelper(string username, string password, bool isDoctor)
         {
             StateLogin loginState = new StateLogin();
             UserList user = new UserList();
-            await InitializeAsync();
+            List<UserLogin> userList = isDoctor ? user.GetDocs() : user.GetUsers();
 
-            Console.Write("Login:\nUsername: ");
-            string nameinput = Console.ReadLine();
+            string hashed = Hasher.HashPassword(password);
 
-            Console.Write("Password: ");
-            string passwdInput = Console.ReadLine();
-
-            for (int i = 0; i < docs.Count; i++)
+            for (int i = 0; i < userList.Count; i++)
             {
-                if ((nameinput == docs[i]._userName) && (passwdInput == docs[i]._password))
+                if (username == userList[i]._userName && Hasher.Verify(password, hashed))
                 {
                     loginState.Action(Trigger.LOGIN);
                 }
@@ -351,42 +308,35 @@ namespace LoginRegister
             this._stateLogin = loginState.current;
         }
 
-        // untuk GUI
-        public async void Login(string username, string password)
+        private string GetInput(string prompt)
         {
-            await InitializeAsync();
-            StateLogin state = new StateLogin();
-
-            string hashed = Hasher.HashPassword(password);
-
-            for (int on = 0; on < users.Count; on++)
+            Console.Write(prompt);
+            string input = Console.ReadLine();
+            while (string.IsNullOrEmpty(input))
             {
-                if (username == users[on]._userName && Hasher.Verify(password, hashed))
-                {
-                    state.Action(Trigger.LOGIN);
-                }
+                Console.WriteLine("Input tidak boleh kosong. Silakan coba lagi.");
+                Console.Write(prompt);
+                input = Console.ReadLine();
             }
-            _stateLogin = state.current;
+            return input;
         }
 
-        public async void DocLogin(string username, string password)
+        // for GUI
+        public LoginState Login(string username, string password)
         {
-            await InitializeAsync();
-            StateLogin docState = new StateLogin();
+            LoginHelper(username, password, false);
+            return _stateLogin;
+        }
 
-            for (int at = 0; at < docs.Count; at++)
-            {
-                if (username == docs[at]._userName && password == docs[at]._password)
-                {
-                    docState.Action(Trigger.LOGIN);
-                }
-            }
-            _stateLogin = docState.current;
+        public LoginState DocLogin(string username, string password)
+        {
+            LoginHelper(username, password, true);
+            return _stateLogin;
         }
 
         public void Logout()
         {
-            StateLogin loginState = new StateLogin();
+            StateLogin loginState = new StateLogin { current = this._stateLogin };
             loginState.Action(Trigger.LOGOUT);
             this._stateLogin = loginState.current;
         }
