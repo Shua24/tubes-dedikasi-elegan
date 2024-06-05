@@ -20,13 +20,11 @@ namespace StatForm
 
         private DataTable ToDataTable(DataFrame dataFrame)
         {
-            DataTable dt = new DataTable();
-
+            DataTable dt = new();
             foreach (var col in dataFrame.Columns)
             {
                 dt.Columns.Add(col.Name);
             }
-
             foreach (var row in dataFrame.Rows)
             {
                 var values = new object[dataFrame.Columns.Count];
@@ -45,12 +43,10 @@ namespace StatForm
             for (int i = 0; i < df.Rows.Count; i++)
             {
                 var row = df.Rows[i];
-
                 for (int j = 0; j < df.Columns.Count; j++)
                 {
                     var column = df.Columns[j];
                     var dataType = column.DataType;
-
                     if (row[j] == null)
                     {
                         if (dataType == typeof(int))
@@ -79,19 +75,16 @@ namespace StatForm
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
                 ofd.Filter = "CSV files (*.csv) | *.csv";
-
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     DataFrame df = DataFrame.LoadCsv(ofd.FileName);
                     FillNA(df);
-
                     DataTable dt = ToDataTable(df);
                     Table.DataSource = dt;
-
                     string reference = ofd.FileName;
 
                     Close();
-                    StatsUI2 statsUI = new StatsUI2(reference);
+                    StatsUI2 statsUI = new(reference);
                     statsUI.Show();
                 }
             }
@@ -100,7 +93,7 @@ namespace StatForm
         private void button2_Click(object sender, EventArgs e)
         {
             Hide();
-            Login login = new Login("");
+            Login login = new("");
             login.Show();
         }
     }

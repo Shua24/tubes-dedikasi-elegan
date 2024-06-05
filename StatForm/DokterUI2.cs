@@ -15,32 +15,28 @@ namespace StatForm
 {
     public partial class DokterUI2 : Form
     {
-        private string dirReference;
+        private string _dirReference;
 
         public DokterUI2(string dirReference)
         {
             InitializeComponent();
-            this.dirReference = dirReference;
+            _dirReference = dirReference;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             string input = textBox1.Text;
             Debug.Assert(!string.IsNullOrEmpty(input));
-            CSVTable tab = new CSVTable(dirReference, string.Empty);
-
-            if (!string.IsNullOrEmpty(tab.ColError)) 
-            { 
-                label3.Text = tab.ColError; 
+            CSVTable tab = new(_dirReference, string.Empty);
+            if (!string.IsNullOrEmpty(tab.ColError))
+            {
+                label3.Text = tab.ColError;
             }
-            
             List<(object, object)> list = tab.CsvStats(input);
-
-            if (listBox1.Items.Count != 0) 
-            { 
-                listBox1.Items.Clear(); 
+            if (listBox1.Items.Count != 0)
+            {
+                listBox1.Items.Clear();
             }
-
             foreach (var item in list)
             {
                 string displayItem = $"{item.Item1}% - {item.Item2}";
@@ -61,8 +57,13 @@ namespace StatForm
         private void button1_Click(object sender, EventArgs e)
         {
             Hide();
-            Login login = new Login(dirReference);
+            Login login = new(_dirReference);
             login.Show();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

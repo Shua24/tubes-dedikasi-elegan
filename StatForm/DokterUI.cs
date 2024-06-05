@@ -13,26 +13,23 @@ namespace StatForm
 {
     public partial class DokterUI : Form
     {
-        private string dirReference;
+        private string _dirReference;
         public DokterUI(string dirReference)
         {
             InitializeComponent();
-            this.dirReference = dirReference;
+            _dirReference = dirReference;
         }
 
         private DataTable ToDataTable(DataFrame dataFrame)
         {
             DataTable dt = new DataTable();
-
             foreach (var col in dataFrame.Columns)
             {
                 dt.Columns.Add(col.Name);
             }
-
             foreach (var row in dataFrame.Rows)
             {
                 var values = new object[dataFrame.Columns.Count];
-
                 for (int i = 0; i < dataFrame.Columns.Count; i++)
                 {
                     values[i] = row[i];
@@ -47,12 +44,10 @@ namespace StatForm
             for (int i = 0; i < df.Rows.Count; i++)
             {
                 var row = df.Rows[i];
-
                 for (int j = 0; j < df.Columns.Count; j++)
                 {
                     var column = df.Columns[j];
                     var dataType = column.DataType;
-
                     if (row[j] == null)
                     {
                         if (dataType == typeof(int))
@@ -78,7 +73,7 @@ namespace StatForm
 
         private DataFrame DataFrameNA()
         {
-            DataFrame df = DataFrame.LoadCsv(dirReference);
+            DataFrame df = DataFrame.LoadCsv(_dirReference);
             FillNA(df);
             return df;
         }
@@ -93,7 +88,7 @@ namespace StatForm
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DokterUI2 nextUI = new DokterUI2(dirReference);
+            DokterUI2 nextUI = new(_dirReference);
             nextUI.Show();
         }
 
@@ -105,7 +100,7 @@ namespace StatForm
         private void button2_Click(object sender, EventArgs e)
         {
             Close();
-            Login login = new Login(dirReference);
+            Login login = new(_dirReference);
             login.Show();
         }
 

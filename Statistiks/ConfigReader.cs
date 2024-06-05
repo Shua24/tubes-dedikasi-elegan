@@ -33,7 +33,6 @@ namespace ConfigurationSettings
         {
             OperatingSystem os = Environment.OSVersion;
             PlatformID kern = os.Platform;
-
             switch (kern)
             {
                 case PlatformID.Win32NT: config = new Configuration("Windows", @"D:\CSV\"); break;
@@ -47,14 +46,13 @@ namespace ConfigurationSettings
             {
                 WriteIndented = true
             };
-
             string jsonStr = JsonSerializer.Serialize(config, options);
             File.WriteAllText(filePath, jsonStr);
         }
 
         public void ChangeConfig(string newPath)
         {
-            config.directory = newPath; 
+            config.Directory = newPath; 
         }
     }
 }

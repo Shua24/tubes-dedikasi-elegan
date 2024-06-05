@@ -9,7 +9,7 @@ namespace LoginAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        static String[] usernames =
+        static string[] s_username =
         {
              "Rakha",
              "Joshua",
@@ -21,7 +21,7 @@ namespace LoginAPI.Controllers
              "Alan"
         };
 
-        static string[] passwords =
+        static string[] s_password =
         {
             "galih",
             "daniel",
@@ -33,13 +33,12 @@ namespace LoginAPI.Controllers
             "bob"
         };
 
-        private List<string> usernameList = usernames.ToList();
-        private List<string> passwordsList = passwords.ToList();
+        private List<string> usernameList = s_username.ToList();
+        private List<string> passwordsList = s_password.ToList();
 
-        List<Users> userList = usernames
-        .Zip(passwords, (user, pass) => new Users(user, pass))
+        List<Users> userList = s_username
+        .Zip(s_password, (user, pass) => new Users(user, pass))
         .ToList();
-
 
         [HttpGet("{id}")]
         public Users Get(int id)

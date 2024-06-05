@@ -5,11 +5,11 @@ namespace API
 {
     public class Table
     {
-        public CSVTable table { get; set; }
+        public CSVTable CsvTable { get; set; }
         
         public Table(CSVTable table)
         {
-            this.table = table;
+            CsvTable = table;
         }
     }
 

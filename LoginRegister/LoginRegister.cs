@@ -16,8 +16,8 @@ namespace LoginRegister
 
         public UserLogin(string username, string password)
         {
-            this._userName = username;
-            this._password = password;
+            _userName = username;
+            _password = password;
         }
 
         public UserLogin() { }
@@ -36,46 +36,31 @@ namespace LoginRegister
                 {
                     rng.GetBytes(salt);
                 }
-
                 // Generate hash
                 byte[] hash;
                 using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, Iterations))
                 {
                     hash = pbkdf2.GetBytes(KeySize);
                 }
-
-                // Salt + hash
                 byte[] hashBytes = new byte[SaltSize + KeySize];
                 Array.Copy(salt, 0, hashBytes, 0, SaltSize);
                 Array.Copy(hash, 0, hashBytes, SaltSize, KeySize);
-
-                // Convert to base64
                 string base64Hash = Convert.ToBase64String(hashBytes);
-
                 return base64Hash;
             }
 
             public static bool Verify(string password, string base64Hash)
             {
-                // Get the bytes from the stored hash
                 byte[] hashBytes = Convert.FromBase64String(base64Hash);
-
-                // Extract the salt
                 byte[] salt = new byte[SaltSize];
                 Array.Copy(hashBytes, 0, salt, 0, SaltSize);
-
-                // Extract the hash
                 byte[] storedHash = new byte[KeySize];
                 Array.Copy(hashBytes, SaltSize, storedHash, 0, KeySize);
-
-                // Hash the input password with the stored salt
                 byte[] hash;
                 using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, Iterations))
                 {
                     hash = pbkdf2.GetBytes(KeySize);
                 }
-
-                // Compare the hashes
                 for (int i = 0; i < KeySize; i++)
                 {
                     if (storedHash[i] != hash[i])
@@ -83,7 +68,6 @@ namespace LoginRegister
                         return false;
                     }
                 }
-
                 return true;
             }
         }
@@ -99,7 +83,7 @@ namespace LoginRegister
                 yousef
             }
 
-            public static string s_GetUsername(User user)
+            public static string GetUsername(User user)
             {
                 string[] usernames =
                 {
@@ -109,9 +93,7 @@ namespace LoginRegister
                     "Dzawin",
                     "Yousef",
                 };
-
                 int index = (int)user;
-
                 if (index >= 0 && index < usernames.Length)
                 {
                     return usernames[index];
@@ -119,19 +101,17 @@ namespace LoginRegister
                 return "Username Tidak Ditemukan";
             }
 
-            public static string s_GetPassword(User user)
+            public static string GetPassword(User user)
             {
                 string[] passwords =
                 {
                     "rakha!galih1",
-                    "shua#daniel2",
-                    "aufa^taqiyya3",
+                    "shua#daniel3",
+                    "aufa^taqiyya6",
                     "dzawin()nuha4",
-                    "yousef#$gumilar%5",
+                    "yousef<>gumilar2",
                 };
-
                 int index = (int)user;
-
                 if (index >= 0 && index < passwords.Length)
                 {
                     return passwords[index];
@@ -146,7 +126,7 @@ namespace LoginRegister
                 alan
             }
 
-            public static string s_GetDocUsername(Doctor doctor)
+            public static string GetDocUsername(Doctor doctor)
             {
                 string[] docUsernames =
                 {
@@ -154,9 +134,7 @@ namespace LoginRegister
                     "Steve",
                     "Alan"
                 };
-
                 int index = (int)doctor;
-
                 if (index >= 0 && index < docUsernames.Length)
                 {
                     return docUsernames[index];
@@ -164,7 +142,7 @@ namespace LoginRegister
                 return "Username dokter tidak ditemukan";
             }
 
-            public static string s_GetDocPasswords(Doctor doctor)
+            public static string GetDocPasswords(Doctor doctor)
             {
                 string[] docPasswords =
                 {
@@ -172,24 +150,21 @@ namespace LoginRegister
                     "all-en72?",
                     "b0bbie43$#"
                 };
-
                 int index = (int)doctor;
-
                 if (index >= 0 && index < docPasswords.Length)
                 {
                     return docPasswords[index];
                 }
-
                 return "Password dokter tidak ditemukan";
             }
 
             public List<UserLogin> users = new List<UserLogin>
             {
-                new UserLogin(s_GetUsername(User.rakha), s_GetPassword(User.rakha)),
-                new UserLogin(s_GetUsername(User.joshua), s_GetPassword(User.joshua)),
-                new UserLogin(s_GetUsername(User.aufa), s_GetPassword(User.aufa)),
-                new UserLogin(s_GetUsername(User.dzawin), s_GetPassword(User.dzawin)),
-                new UserLogin(s_GetUsername(User.yousef), s_GetPassword(User.yousef))
+                new(GetUsername(User.rakha), GetPassword(User.rakha)),
+                new(GetUsername(User.joshua), GetPassword(User.joshua)),
+                new(GetUsername(User.aufa), GetPassword(User.aufa)),
+                new(GetUsername(User.dzawin), GetPassword(User.dzawin)),
+                new(GetUsername(User.yousef), GetPassword(User.yousef))
             };
 
             public List<UserLogin> GetUsers()
@@ -199,9 +174,9 @@ namespace LoginRegister
 
             public List<UserLogin> docs = new List<UserLogin>
             {
-                new UserLogin(s_GetDocUsername(Doctor.alan), s_GetDocPasswords(Doctor.alan)),
-                new UserLogin(s_GetDocUsername(Doctor.steve), s_GetDocPasswords(Doctor.steve)),
-                new UserLogin(s_GetDocUsername(Doctor.john), s_GetDocPasswords(Doctor.john)),
+                new(GetDocUsername(Doctor.alan), GetDocPasswords(Doctor.alan)),
+                new(GetDocUsername(Doctor.steve), GetDocPasswords(Doctor.steve)),
+                new(GetDocUsername(Doctor.john), GetDocPasswords(Doctor.john)),
             };
 
             public List<UserLogin> GetDocs() { return docs; }
@@ -210,6 +185,7 @@ namespace LoginRegister
         public class StateLogin
         {
             public LoginState current;
+
             public StateLogin()
             {
                 current = LoginState.BELUM_LOGIN;
@@ -217,18 +193,16 @@ namespace LoginRegister
 
             Transition[] transitions =
             {
-                new Transition(LoginState.BELUM_LOGIN, Trigger.LOGIN, LoginState.SUDAH_LOGIN),
-                new Transition(LoginState.SUDAH_LOGIN, Trigger.LOGOUT, LoginState.BELUM_LOGIN),
+                new(LoginState.BELUM_LOGIN, Trigger.LOGIN, LoginState.SUDAH_LOGIN),
+                new(LoginState.SUDAH_LOGIN, Trigger.LOGOUT, LoginState.BELUM_LOGIN),
             };
 
             public LoginState NextState(LoginState initLoginState, Trigger trigger)
             {
                 LoginState stateAkhir = initLoginState;
-
                 for (int i = 0; i < transitions.Length; i++)
                 {
                     Transition transition = transitions[i];
-
                     if (initLoginState == transition.stateAwal && trigger == transition.trigger)
                     {
                         stateAkhir = transitions[i].stateAkhir;
@@ -240,7 +214,6 @@ namespace LoginRegister
             public void Action(Trigger trigger)
             {
                 current = NextState(current, trigger);
-
                 if (current == LoginState.BELUM_LOGIN && trigger == Trigger.LOGIN)
                 {
                     Console.WriteLine("Silahkan Login");
@@ -270,33 +243,30 @@ namespace LoginRegister
             }
         }
 
-        public LoginState getLoginState()
+        public LoginState GetLoginState()
         {
-            return this._stateLogin;
+            return _stateLogin;
         }
 
         public void Login()
         {
             string nameinput = GetInput("Login:\nUsername: ");
-            string passwdInput = GetInput("Password: ");
-
-            LoginHelper(nameinput, passwdInput, false);
+            string passwordInput = GetInput("Password: ");
+            LoginHelper(nameinput, passwordInput, false);
         }
 
         public void LoginDoc()
         {
             string nameinput = GetInput("Login:\nUsername: ");
-            string passwdInput = GetInput("Password: ");
-
-            LoginHelper(nameinput, passwdInput, true);
+            string passwordInput = GetInput("Password: ");
+            LoginHelper(nameinput, passwordInput, true);
         }
 
         private void LoginHelper(string username, string password, bool isDoctor)
         {
-            StateLogin loginState = new StateLogin();
-            UserList user = new UserList();
+            StateLogin loginState = new();
+            UserList user = new();
             List<UserLogin> userList = isDoctor ? user.GetDocs() : user.GetUsers();
-
             string hashed = Hasher.HashPassword(password);
 
             for (int i = 0; i < userList.Count; i++)
@@ -306,7 +276,7 @@ namespace LoginRegister
                     loginState.Action(Trigger.LOGIN);
                 }
             }
-            this._stateLogin = loginState.current;
+            _stateLogin = loginState.current;
         }
 
         private string GetInput(string prompt)
@@ -337,9 +307,9 @@ namespace LoginRegister
 
         public void Logout()
         {
-            StateLogin loginState = new StateLogin { current = this._stateLogin };
+            StateLogin loginState = new StateLogin { current = _stateLogin };
             loginState.Action(Trigger.LOGOUT);
-            this._stateLogin = loginState.current;
+            _stateLogin = loginState.current;
         }
     }
 }
