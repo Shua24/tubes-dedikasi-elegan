@@ -8,19 +8,19 @@ namespace API.Controllers
     [ApiController]
     public class TableController : ControllerBase
     {
-        public static CSVTable _csv = new CSVTable("polakuman3.csv");
-        public static Table _readTable = new Table(_csv);
+        public static CSVTable s_csv = new("polakuman3.csv");
+        public static Table s_readTable = new(s_csv);
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_readTable.table.SerializeDataFrame());
+            return Ok(s_readTable.CsvTable.SerializeDataFrame());
         }
 
         [HttpGet("{ColumnName}")]
         public IActionResult Get(string ColumnName)
         {
-            return Ok(_readTable.table.ShowColumn(ColumnName));
+            return Ok(s_readTable.CsvTable.ShowColumn(ColumnName));
         }
     }
 }

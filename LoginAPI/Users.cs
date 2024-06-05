@@ -4,13 +4,14 @@ namespace LoginAPI
 {
     public class Users
     {
-        public string username { get; set; }
-        public string password { get; set; }
+        public string Username { get; set; }
+
+        public string Password { get; set; }
 
         public Users(string username, string password)
         {
-            this.username = username;
-            this.password = UserLogin.Hasher.HashPassword(password);
+            Username = username;
+            Password = UserLogin.Hasher.HashPassword(password);
         }
     }
 }

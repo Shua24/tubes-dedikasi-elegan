@@ -13,17 +13,17 @@ namespace CSVAnalytics
         private ConfigurationReader _conf;
         public string? ColError;
 
-        public CSVTable(string filepath, string csvFile)
+        public CSVTable(string filePath, string csvFile)
         {
-            this._filePath = filepath;
-            this._csvFile = csvFile;
+            _filePath = filePath;
+            _csvFile = csvFile;
         }
         
         public CSVTable(string csvFile)
         {
-            this._conf = new ConfigurationReader();
-            this._filePath = _conf.config.directory;
-            this._csvFile = csvFile;
+            _conf = new ConfigurationReader();
+            _filePath = _conf.config.Directory;
+            _csvFile = csvFile;
         }
         
         public string GetFilePath()
@@ -42,7 +42,6 @@ namespace CSVAnalytics
             Console.WriteLine("Anda akan menghapus data pola kuman. Yakin (y/n)?");
             string yn = Console.ReadLine();
             Debug.Assert(!string.IsNullOrEmpty(yn), "Pilihan tidak boleh null");
-
             switch (yn)
             {
                 case "y":
@@ -59,7 +58,6 @@ namespace CSVAnalytics
             Console.Write("Anda akan mengganti pola kuman ke file yang baru. Yakin (y/n)? ");
             string yn = Console.ReadLine();
             Debug.Assert(!string.IsNullOrEmpty(yn), "Pilihan tidak boleh null");
-
             switch (yn)
             {
                 case "y":
@@ -67,7 +65,6 @@ namespace CSVAnalytics
                     Console.WriteLine("Contoh: file.csv");
                     Console.Write("Tabel anda: ");
                     string csvChange = Console.ReadLine();
-
                     if (!File.Exists(_filePath + csvChange))
                     {
                         Console.WriteLine("File tidak tersedia!");
@@ -90,7 +87,6 @@ namespace CSVAnalytics
         {
             var df = DataFrame.LoadCsv(_filePath + _csvFile);
             string ignored = "Number of isolates";
-
             foreach (var col in df.Columns)
             {
                 for (int i = 0; i < col.Length; i++)
@@ -104,13 +100,10 @@ namespace CSVAnalytics
 
             var accessedCol = df["Organism"]; // inisialisasi
             Console.Write("Masukkan spesies bakteri: ");
-
             string accessed = Console.ReadLine()?.ToLower();
             Debug.Assert(!string.IsNullOrEmpty(accessed), "Species Bakteri tidak boleh null");
-
             string ignoredCol = "Organism";
             List<int> kept = new List<int>();
-
             for (int i = 0; i < df.Rows.Count; i++)
             {
                 if (!df.Rows[i][ignoredCol].ToString().Equals(ignored))
@@ -130,7 +123,6 @@ namespace CSVAnalytics
             df = df[kept];
             var correlatingCol = df[ignoredCol];
             var pairedValues = new List<(object, object)>();
-
             for (int i = 0; i < Math.Min(accessedCol.Length, correlatingCol.Length); i++)
             {
                 pairedValues.Add((accessedCol[i], correlatingCol[i]));
@@ -138,7 +130,6 @@ namespace CSVAnalytics
 
             var sortedVal = pairedValues.OrderByDescending(pair => pair.Item1);
             var threeLargest = sortedVal.Take(3);
-
             foreach (var pair in threeLargest)
             {
                 Console.WriteLine(pair.Item2 + " - " + pair.Item1 + "%"); // console
@@ -150,7 +141,6 @@ namespace CSVAnalytics
         {
             var df = DataFrame.LoadCsv(_filePath); // GUI ga perlu ketik file
             string ignored = "Number of isolates";
-
             foreach (var col in df.Columns)
             {
                 for (int i = 0; i < col.Length; i++)
@@ -166,7 +156,6 @@ namespace CSVAnalytics
             Debug.Assert(!string.IsNullOrEmpty(column), "Species Bakteri tidak boleh null");
             string ignoredCol = "Organism";
             List<int> kept = new List<int>();
-
             for (int i = 0; i < df.Rows.Count; i++)
             {
                 if (!df.Rows[i][ignoredCol].ToString().Equals(ignored))
@@ -174,7 +163,6 @@ namespace CSVAnalytics
                     kept.Add(i);
                 }
             }
-
             for (int i = 0; i < df.Columns.Count; i++)
             {
                 if (df.Columns[i].Name.ToLower() == column.ToLower())
@@ -190,24 +178,20 @@ namespace CSVAnalytics
             df = df[kept];
             var correlatingCol = df[ignoredCol];
             var pairedvalues = new List<(object, object)>();
-
             for (int i = 0; i < Math.Min(accessedCol.Length, correlatingCol.Length); i++)
             {
                 pairedvalues.Add((accessedCol[i], correlatingCol[i]));
             }
 
             var sortedVal = pairedvalues.OrderByDescending(pair => pair.Item1);
-
             var threeLargest = sortedVal.Take(3);
-
             return threeLargest.ToList();
         }
 
-        public void showCSV()
+        public void ShowCSV()
         {
             var df = DataFrame.LoadCsv(_filePath + _csvFile);
             ConsoleTable table = new ConsoleTable(df.Columns.Select(c => c.Name).ToArray());
-
             foreach (var row in df.Rows)
             {
                 object[] rowData = new object[df.Columns.Count];
@@ -223,7 +207,6 @@ namespace CSVAnalytics
         public DataFrameColumn[] ShowColumn(string columnName)
         {
             DataFrame df = DataFrame.LoadCsv(_filePath + _csvFile);
-
             for(int i = 0; i < df.Columns.Count; i++)
             {
                 if (df.Columns[i].Name.Contains(columnName, StringComparison.OrdinalIgnoreCase))
@@ -236,7 +219,6 @@ namespace CSVAnalytics
                     return foundColumns;
                 }
             }
-            
             DataFrameColumn[] defaultColumns =
             {
                 df.Columns[0],

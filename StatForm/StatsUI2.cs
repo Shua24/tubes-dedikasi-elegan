@@ -20,13 +20,11 @@ namespace StatForm
 
         private DataTable ToDataTable(DataFrame dataFrame)
         {
-            DataTable dt = new DataTable();
-
+            DataTable dt = new();
             foreach (var col in dataFrame.Columns)
             {
                 dt.Columns.Add(col.Name);
             }
-
             foreach (var row in dataFrame.Rows)
             {
                 var values = new object[dataFrame.Columns.Count];
@@ -45,12 +43,10 @@ namespace StatForm
             for (int i = 0; i < df.Rows.Count; i++)
             {
                 var row = df.Rows[i];
-
                 for (int j = 0; j < df.Columns.Count; j++)
                 {
                     var column = df.Columns[j];
                     var dataType = column.DataType;
-
                     if (row[j] == null)
                     {
                         if (dataType == typeof(int))
@@ -90,17 +86,14 @@ namespace StatForm
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog ofd = new OpenFileDialog())
+            using (OpenFileDialog ofd = new())
             {
                 ofd.Filter = "CSV files (*.csv) | *.csv";
-
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     dirReference = ofd.FileName;
-
                     DataFrame df = DataFrame.LoadCsv(dirReference);
                     FillNA(df);
-
                     DataTable dt = ToDataTable(df);
                     Table.DataSource = dt;
                 }
@@ -110,7 +103,7 @@ namespace StatForm
         private void button3_Click(object sender, EventArgs e)
         {
             Hide();
-            Login login = new Login(dirReference);
+            Login login = new(dirReference);
             login.Show();
         }
 
@@ -127,7 +120,7 @@ namespace StatForm
 
         private void button5_Click(object sender, EventArgs e)
         {
-            DokterUI2 next = new DokterUI2(dirReference);
+            DokterUI2 next = new(dirReference);
             next.Show();
         }
 

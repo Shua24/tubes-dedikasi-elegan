@@ -23,9 +23,7 @@ namespace StatForm
             // Regex patterns
             string usernamePattern = @"^[a-zA-Z]+$";
             string passwordPattern = @"^(?=.*[!@#$%^&*(),.?""{}|<>])[\S]{8,}$";
-
             DokterUI nextDoc;
-
             if (selectedRole == null)
             {
                 label4.Text = "Error: Anda perlu memilih role pengguna!";
@@ -57,11 +55,10 @@ namespace StatForm
             else
             {
                 string selected = comboBox1.SelectedItem.ToString();
-
                 if (selected == "Dokter")
                 {
                     userStatus.DocLogin(textBox1.Text, textBox2.Text);
-                    loginStatus = userStatus.getLoginState();
+                    loginStatus = userStatus.GetLoginState();
                     if (loginStatus != LoginState.SUDAH_LOGIN)
                     {
                         label4.Text = "Username atau password salah untuk seorang " + selected;
@@ -83,7 +80,7 @@ namespace StatForm
                 else if (selected == "Tim mikrobiologi")
                 {
                     userStatus.Login(textBox1.Text, textBox2.Text);
-                    loginStatus = userStatus.getLoginState();
+                    loginStatus = userStatus.GetLoginState();
                     if (loginStatus != LoginState.SUDAH_LOGIN)
                     {
                         label4.Text = "Username atau password salah untuk seorang " + selected;
