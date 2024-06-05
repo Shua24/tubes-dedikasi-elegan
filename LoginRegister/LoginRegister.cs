@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace LoginRegister
 {
@@ -29,21 +30,21 @@ namespace LoginRegister
 
             public static string HashPassword(string password)
             {
-                // Generate a salt
+                // salt: sedikit ke-random-an hash
                 byte[] salt = new byte[SaltSize];
                 using (var rng = RandomNumberGenerator.Create())
                 {
                     rng.GetBytes(salt);
                 }
 
-                // Generate the hash
+                // Generate hash
                 byte[] hash;
                 using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, Iterations))
                 {
                     hash = pbkdf2.GetBytes(KeySize);
                 }
 
-                // Combine salt and hash
+                // Salt + hash
                 byte[] hashBytes = new byte[SaltSize + KeySize];
                 Array.Copy(salt, 0, hashBytes, 0, SaltSize);
                 Array.Copy(hash, 0, hashBytes, SaltSize, KeySize);
