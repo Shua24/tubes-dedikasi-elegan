@@ -22,7 +22,7 @@ namespace StatForm
             
             // Regex patterns
             string usernamePattern = @"^[a-zA-Z]+$";
-            string passwordPattern = @"^(?=.[!@#$%^&(),.?"":{}|<>])[\S]{8,}$";
+            string passwordPattern = @"^(?=.*[!@#$%^&*(),.?""{}|<>])[\S]{8,}$";
 
             DokterUI nextDoc;
 

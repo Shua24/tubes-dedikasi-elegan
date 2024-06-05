@@ -123,11 +123,11 @@ namespace LoginRegister
             {
                 string[] passwords =
                 {
-                    "galih",
-                    "daniel",
-                    "taqiyya",
-                    "nuha",
-                    "gumilar",
+                    "rakha!galih1",
+                    "shua#daniel2",
+                    "aufa^taqiyya3",
+                    "dzawin()nuha4",
+                    "yousef#$gumilar%5",
                 };
 
                 int index = (int)user;
@@ -168,9 +168,9 @@ namespace LoginRegister
             {
                 string[] docPasswords =
                 {
-                    "doe",
-                    "allen",
-                    "bob"
+                    "j0hn-doe!",
+                    "all-en72?",
+                    "b0bbie43$#"
                 };
 
                 int index = (int)doctor;
