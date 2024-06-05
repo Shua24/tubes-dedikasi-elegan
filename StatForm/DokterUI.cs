@@ -99,19 +99,14 @@ namespace StatForm
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Close();
             Login login = new(_dirReference);
             login.Show();
+            Close();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

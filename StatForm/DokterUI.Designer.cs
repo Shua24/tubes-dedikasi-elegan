@@ -94,7 +94,6 @@
             label2.Size = new Size(220, 20);
             label2.TabIndex = 5;
             label2.Text = "Apa yang anda butuhkan disini?";
-            label2.Click += label2_Click;
             // 
             // DokterUI
             // 

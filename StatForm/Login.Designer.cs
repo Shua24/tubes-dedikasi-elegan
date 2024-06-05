@@ -56,7 +56,6 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(197, 23);
             textBox1.TabIndex = 1;
-            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // textBox2
             // 
@@ -103,7 +102,6 @@
             comboBox1.Size = new Size(121, 23);
             comboBox1.TabIndex = 6;
             comboBox1.Text = "Pilih";
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // label3
             // 
