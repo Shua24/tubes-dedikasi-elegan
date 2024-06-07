@@ -22,7 +22,7 @@ namespace StatForm
 
         private DataTable ToDataTable(DataFrame dataFrame)
         {
-            DataTable dt = new DataTable();
+            DataTable dt = new();
             foreach (var col in dataFrame.Columns)
             {
                 dt.Columns.Add(col.Name);
