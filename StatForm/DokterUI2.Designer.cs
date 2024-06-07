@@ -65,9 +65,9 @@
             ScreenTitle.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ScreenTitle.Location = new Point(482, 27);
             ScreenTitle.Name = "ScreenTitle";
-            ScreenTitle.Size = new Size(257, 25);
+            ScreenTitle.Size = new Size(266, 25);
             ScreenTitle.TabIndex = 3;
-            ScreenTitle.Text = "Tampilan 3 Antibiotik terbaik!";
+            ScreenTitle.Text = "Tampilkan 3 Antibiotik terbaik!";
             // 
             // button2
             // 
