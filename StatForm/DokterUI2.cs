@@ -28,9 +28,10 @@ namespace StatForm
             string input = textBox1.Text;
             Debug.Assert(!string.IsNullOrEmpty(input));
             CSVTable tab = new(_dirReference, string.Empty);
-            if (!string.IsNullOrEmpty(tab.ColError))
+            string errorText = CSVTable.GetColumnError();
+            if (!string.IsNullOrEmpty(errorText))
             {
-                label3.Text = tab.ColError;
+                label3.Text = CSVTable.GetColumnError();
             }
             List<(object, object)> list = tab.CsvStats(input);
             if (listBox1.Items.Count != 0)
@@ -52,13 +53,6 @@ namespace StatForm
         private void button3_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Hide();
-            Login login = new(_dirReference);
-            login.Show();
         }
     }
 }

@@ -92,9 +92,9 @@ namespace StatForm
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Hide();
             Login login = new("");
             login.Show();
+            Close();
         }
     }
 }

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             listBox1 = new ListBox();
-            button1 = new Button();
             ScreenTitle = new Label();
             button2 = new Button();
             label2 = new Label();
@@ -48,16 +47,6 @@
             listBox1.Name = "listBox1";
             listBox1.Size = new Size(890, 274);
             listBox1.TabIndex = 1;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(1116, 610);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 2;
-            button1.Text = "Logout";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
             // 
             // ScreenTitle
             // 
@@ -118,7 +107,8 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(1033, 319);
+            label3.ForeColor = Color.Red;
+            label3.Location = new Point(154, 499);
             label3.Name = "label3";
             label3.Size = new Size(0, 15);
             label3.TabIndex = 10;
@@ -135,7 +125,6 @@
             Controls.Add(label2);
             Controls.Add(button2);
             Controls.Add(ScreenTitle);
-            Controls.Add(button1);
             Controls.Add(listBox1);
             Name = "DokterUI2";
             Text = "Cari Antibiotik";
@@ -145,7 +134,6 @@
 
         #endregion
         private ListBox listBox1;
-        private Button button1;
         private Label ScreenTitle;
         private Button button2;
         private Label label2;

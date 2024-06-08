@@ -11,12 +11,18 @@ namespace CSVAnalytics
         private string _filePath; // folder yang isinya csv
         private string _csvFile; // file CSV referensi
         private ConfigurationReader _conf;
-        public string? ColError;
+        private const string ColError = "Error: Bakteri tidak ditemukan";
 
         public CSVTable(string filePath, string csvFile)
         {
             _filePath = filePath;
             _csvFile = csvFile;
+
+        }
+
+        public static string GetColumnError()
+        {
+            return ColError;
         }
         
         public CSVTable(string csvFile)
@@ -171,7 +177,7 @@ namespace CSVAnalytics
                 }
                 else
                 {
-                    ColError = "Error: Bakteri tidak ditemukan";
+                    GetColumnError();
                 }
             }
 
