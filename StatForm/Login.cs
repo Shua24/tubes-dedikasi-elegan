@@ -57,11 +57,6 @@ namespace StatForm
         {
             LoginState loginStatus = LoginState.BELUM_LOGIN;
             UserLogin userStatus = new();
-            object selectedRole = comboBox1.SelectedItem;
-
-            // Regex patterns
-            string usernamePattern = @"^[a-zA-Z]+$";
-            string passwordPattern = @"^(?=.*[!@#$%^&*(),.?""{}|<>])[\S]{8,}$";
             DokterUI nextDoc;
             string error = GetErrorState();
             if (!string.IsNullOrEmpty(error))
