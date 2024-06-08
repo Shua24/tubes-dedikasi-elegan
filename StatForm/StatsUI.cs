@@ -72,7 +72,7 @@ namespace StatForm
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog ofd = new OpenFileDialog())
+            using (OpenFileDialog ofd = new())
             {
                 ofd.Filter = "CSV files (*.csv) | *.csv";
                 if (ofd.ShowDialog() == DialogResult.OK)

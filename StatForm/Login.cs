@@ -17,7 +17,7 @@ namespace StatForm
         private void button1_Click(object sender, EventArgs e)
         {
             LoginState loginStatus = LoginState.BELUM_LOGIN;
-            UserLogin userStatus = new UserLogin();
+            UserLogin userStatus = new();
             object selectedRole = comboBox1.SelectedItem;
             
             // Regex patterns

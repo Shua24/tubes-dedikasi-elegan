@@ -64,7 +64,7 @@
             button1.Name = "button1";
             button1.Size = new Size(141, 33);
             button1.TabIndex = 2;
-            button1.Text = "Update/Pilih FIle Lain";
+            button1.Text = "Update File";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -74,7 +74,7 @@
             button2.Name = "button2";
             button2.Size = new Size(141, 33);
             button2.TabIndex = 3;
-            button2.Text = "Hapus";
+            button2.Text = "Hapus File";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
