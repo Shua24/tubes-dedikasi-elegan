@@ -2,16 +2,55 @@ using LoginRegister;
 using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.Text.RegularExpressions;
+using System.Net.NetworkInformation;
 
 namespace StatForm
 {
     public partial class Login : Form
     {
         public string? dirReference;
+
+        string[] ErrorMessages =
+        {
+            "Error: Anda perlu memilih role pengguna!", // 0
+            "Error: Username tidak terisi", // 1
+            "Error: password tidak terisi", // 2
+            "Panjang username minimal 3 karakter", // 3
+            "Panjang password minimal 8 karakter", // 4
+            "Username harus berupa huruf", // 5
+            "Password harus memiliki karakter spesial" // 6
+        };
+
         public Login(string? dirReference)
         {
             InitializeComponent();
             this.dirReference = dirReference;
+        }
+
+        public string GetErrorState()
+        {
+            string usernamePattern = @"^[a-zA-Z]+$";
+            string passwordPattern = @"^(?=.*[!@#$%^&*(),.?""{}|<>])[\S]{8,}$";
+
+            bool[] errorConditions =
+            {
+                comboBox1.SelectedItem == null,
+                string.IsNullOrEmpty(textBox1.Text),
+                string.IsNullOrEmpty(textBox2.Text),
+                textBox1.Text.Length < 3,
+                textBox2.Text.Length < 8,
+                !Regex.IsMatch(textBox1.Text, usernamePattern),
+                !Regex.IsMatch(textBox2.Text, passwordPattern)
+            };
+
+            for (int i = 0; i < errorConditions.Length; i++)
+            {
+                if (errorConditions[i])
+                {
+                    return ErrorMessages[i];
+                }
+            }
+            return string.Empty;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -19,39 +58,17 @@ namespace StatForm
             LoginState loginStatus = LoginState.BELUM_LOGIN;
             UserLogin userStatus = new();
             object selectedRole = comboBox1.SelectedItem;
-            
+
             // Regex patterns
             string usernamePattern = @"^[a-zA-Z]+$";
             string passwordPattern = @"^(?=.*[!@#$%^&*(),.?""{}|<>])[\S]{8,}$";
             DokterUI nextDoc;
-            if (selectedRole == null)
+            string error = GetErrorState();
+            if (!string.IsNullOrEmpty(error))
             {
-                label4.Text = "Error: Anda perlu memilih role pengguna!";
+                label4.Text = error;
             }
-            else if (string.IsNullOrEmpty(textBox1.Text))
-            {
-                label4.Text = "Error: Username tidak terisi";
-            }
-            else if (string.IsNullOrEmpty(textBox2.Text))
-            {
-                label4.Text = "Error: password tidak terisi";
-            }
-            else if (textBox1.Text.Length < 3)
-            {
-                label4.Text = "Panjang username minimal 3 karakter";
-            }
-            else if (textBox2.Text.Length < 8)
-            {
-                label4.Text = "Panjang password minimal 8 karakter";
-            }
-            else if (!Regex.IsMatch(textBox1.Text, usernamePattern))
-            {
-                label4.Text = "Username harus berupa huruf";
-            }
-            else if (!Regex.IsMatch(textBox2.Text, passwordPattern))
-            {
-                label4.Text = "Password harus memiliki karakter spesial";
-            }
+
             else
             {
                 string selected = comboBox1.SelectedItem.ToString();
