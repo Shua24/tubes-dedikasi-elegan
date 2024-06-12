@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Analysis;
 using System.Data;
+using ConfigurationSettings;
 
 namespace StatForm
 {
@@ -72,21 +73,22 @@ namespace StatForm
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog ofd = new())
-            {
-                ofd.Filter = "CSV files (*.csv) | *.csv";
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
-                    DataFrame df = DataFrame.LoadCsv(ofd.FileName);
-                    FillNA(df);
-                    DataTable dt = ToDataTable(df);
-                    Table.DataSource = dt;
-                    string reference = ofd.FileName;
+            ConfigurationReader reader = new();
 
-                    Close();
-                    StatsUI2 statsUI = new(reference);
-                    statsUI.Show();
-                }
+            using OpenFileDialog ofd = new();
+            ofd.Filter = "CSV files (*.csv) | *.csv";
+            ofd.InitialDirectory = reader.config.Directory;
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                DataFrame df = DataFrame.LoadCsv(ofd.FileName);
+                FillNA(df);
+                DataTable dt = ToDataTable(df);
+                Table.DataSource = dt;
+                string reference = ofd.FileName;
+
+                Close();
+                StatsUI2 statsUI = new(reference);
+                statsUI.Show();
             }
         }
 
