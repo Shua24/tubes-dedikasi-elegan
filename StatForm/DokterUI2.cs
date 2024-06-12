@@ -28,11 +28,7 @@ namespace StatForm
             string input = textBox1.Text;
             Debug.Assert(!string.IsNullOrEmpty(input));
             CSVTable tab = new(_dirReference, string.Empty);
-            string errorText = CSVTable.GetColumnError();
-            if (!string.IsNullOrEmpty(errorText))
-            {
-                label3.Text = CSVTable.GetColumnError();
-            }
+
             List<(object, object)> list = tab.CsvStats(input);
             if (listBox1.Items.Count != 0)
             {
